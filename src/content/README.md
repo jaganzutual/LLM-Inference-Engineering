@@ -9,7 +9,11 @@ This folder is intentionally empty. Add one markdown file per topic when you are
 180.md
 ```
 
-The filename must be the three-digit topic number. The app ignores everything else in this folder, including this README.
+The filename must be the three-digit topic number. The app ignores everything else in this folder, including this README. Topic numbers map to tracks through `src/data/tracks.js`:
+
+- `001–025` → Track 01, Foundations
+- `026–048` → Track 02, Inference
+- `049–065` → Track 03, GPU Performance
 
 ## Format
 
@@ -17,7 +21,7 @@ The filename must be the three-digit topic number. The app ignores everything el
 - Use `##` for main sections and `###` for subsections.
 - GitHub-flavored markdown is supported: tables, task lists, fenced code blocks, blockquotes.
 - Start with a short introduction, then move into the lesson.
-- Internal links like `/topic/50` work inside content.
+- Internal links use the track-scoped route, for example `/track/3/topic/50`.
 - External links open in a new tab.
 
 ## Images and files

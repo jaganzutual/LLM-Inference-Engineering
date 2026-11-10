@@ -1,8 +1,16 @@
 # LLM Inference Engineering
 
-A learning platform for LLM inference engineering. The curriculum contains **10 phases and 180 topics**, ordered from deep-learning foundations through production inference, kernels, and distributed systems.
+A focused learning platform for LLM inference engineering.
 
-The app is the base layer: navigation, search, progress, topic pages, and a markdown pipeline are in place. Lesson notes and video walkthroughs are added over time.
+The public site has a separate hero page, a track picker, and three self-contained tracks:
+
+| Track | Topics |
+| --- | --- |
+| **01 Deep Learning & LLM Foundations** | 25 |
+| **02 LLM Inference Fundamentals** | 23 |
+| **03 GPU Architecture & Performance** | 17 |
+
+The full syllabus still contains 10 phases and 180 topics in `topics.json` and `src/data/curriculum.js`; the remaining phases are reserved for future tracks. Lesson notes and videos are not written yet.
 
 ## Run locally
 
@@ -26,26 +34,46 @@ Hash routing is used so the static build works under the GitHub Pages repository
 
 | Route | Page |
 | --- | --- |
-| `/#/` | Curriculum overview |
-| `/#/phase/3` | Phase page |
-| `/#/topic/49` | Topic page |
+| `/#/` | Hero page |
+| `/#/tracks` | Track picker |
+| `/#/track/3` | Track overview |
+| `/#/track/3/topic/49` | Topic page |
+| `/#/phase/3` | Redirects to `/#/track/3` |
+| `/#/topic/49` | Redirects to `/#/track/3/topic/49` |
 
 ## Project structure
 
 ```text
 src/
-  data/curriculum.js     Phase definitions, topic grouping, route helpers
+  data/tracks.js         Published tracks, track metadata, route helpers
+  data/curriculum.js     All 10 phases, topic grouping, legacy helpers
   data/videos.js         Optional YouTube IDs keyed by topic number
   lib/content.js         Markdown loading, read time, heading extraction
-  lib/progress.jsx       Completion state persisted in localStorage
+  lib/progress.jsx       Completion state and per-track progress
+  lib/github.jsx         Cached GitHub star count
   lib/theme.jsx          Light/dark theme provider
-  components/            App shell, sidebar, header, search, cards, topic rows
-  pages/                 Home, phase, topic, and 404 pages
+  components/            Hero/track shell, sidebar, search, cards, topic rows
+  pages/                 Hero, tracks, track, topic, and 404 pages
   content/               Lesson markdown files (none yet)
-  styles/                Tokens, base, layout, components, pages, markdown
-topics.json              The 180-topic syllabus
+  styles/                Tokens, base, layout, components, pages, landing,
+                         markdown
+topics.json              The full 180-topic syllabus
 .github/workflows/       GitHub Pages deployment
 ```
+
+## Adding a track
+
+The 3 published tracks are defined by ids in `src/data/tracks.js`:
+
+```js
+const trackMeta = [
+  { id: 1, shortTitle: 'Foundations', ... },
+  { id: 2, shortTitle: 'Inference', ... },
+  { id: 3, shortTitle: 'GPU Performance', ... },
+];
+```
+
+Each id maps to a phase in `src/data/curriculum.js`. To publish another track, add its phase id and presentation copy to `trackMeta`. The sidebar, search, landing page, and progress will pick it up automatically. The remaining phases are 4–10.
 
 ## Adding lesson content
 
@@ -55,9 +83,9 @@ Create a markdown file in `src/content/` named after the topic number with three
 src/content/049.md
 ```
 
-The topic page loads it automatically. Content is rendered with GitHub-flavored markdown, so tables, task lists, and fenced code blocks work. Start headings at `##`; the page already renders the topic title as the `h1`. `##` and `###` headings become the "On this page" outline.
+The topic page loads it automatically. Content is rendered with GitHub-flavored markdown, so tables, task lists, and fenced code blocks work. Start headings at `##`; the page renders the topic title as the `h1`. `##` and `###` headings become the "On this page" outline.
 
-Internal links such as `/topic/50` are routed by the app. External links open in a new tab. There is no content file yet, so every topic shows the "notes in progress" state.
+Internal links use the track-scoped route, for example `/track/3/topic/50`. External links open in a new tab. There is no content file yet, so every topic shows the "notes in progress" state.
 
 ## Adding a video walkthrough
 
@@ -73,11 +101,19 @@ The topic page renders a responsive, privacy-enhanced YouTube player. Without an
 
 ## Progress
 
-Completion is stored in `localStorage` under `inference:progress:v1`. There is no account or backend. Progress syncs between tabs in the same browser. The header, sidebar, home page, and phase pages all read from the same state.
+Completion is stored in `localStorage` under `inference:progress:v1`. There is no account or backend. Progress syncs between tabs in the same browser.
+
+The header, sidebar, track page, hero page, and track picker all read from the same state. Each track has its own completion count, and "Continue" resumes at the next unfinished topic after the one you last visited.
+
+## GitHub stars
+
+The header and footer show the repository's star count. It is fetched once from the public GitHub API and cached in `localStorage` for one hour under `inference:github-stars:v1`. If the request fails, the rest of the UI continues to work.
 
 ## Theme
 
 The app ships with dark and light themes. The initial theme follows the operating system, and the toggle in the header stores the user's choice under `inference:theme`.
+
+The lime accent is intentionally reserved for small signals: the brand mark, the active-topic marker, completion checks, and the progress ring. Primary actions and progress bars use neutral ink.
 
 ## Publish with GitHub Pages
 
@@ -85,7 +121,7 @@ The app ships with dark and light themes. The initial theme follows the operatin
 2. Open **Settings → Pages** and select **GitHub Actions** as the source.
 3. Push to `master` or run the **Deploy to GitHub Pages** workflow.
 
-The existing workflow in `.github/workflows/pages.yml` installs dependencies, runs `tests/render.test.js`, builds with Vite, and publishes `dist/`. Vite uses relative asset paths, so the site works under the repository subpath.
+The workflow in `.github/workflows/pages.yml` installs dependencies, runs `tests/render.test.js`, builds with Vite, and publishes `dist/`. Vite uses relative asset paths, so the site works under the repository subpath.
 
 ## Tests
 
@@ -93,4 +129,4 @@ The existing workflow in `.github/workflows/pages.yml` installs dependencies, ru
 npm test
 ```
 
-The render test verifies the curriculum counts, all core routes, the topic empty state, and 404 handling.
+The render test verifies the track counts, hero and track routes, the topic empty state, 404 handling, and the markdown pipeline.

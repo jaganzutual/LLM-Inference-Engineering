@@ -1,12 +1,11 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
-  allTopics,
-  phaseForTopic,
-  phasePath,
-  topicByNumber,
-  topicPath,
-} from '../data/curriculum.js';
+  trackById,
+  trackPath,
+  trackTopicPath,
+  tracks,
+} from '../data/tracks.js';
 import { getVideoId } from '../data/videos.js';
 import {
   estimateReadTime,
@@ -34,25 +33,30 @@ import NotFoundPage from './NotFoundPage.jsx';
 const Markdown = lazy(() => import('../components/Markdown.jsx'));
 
 export default function TopicPage() {
-  const { topicNumber } = useParams();
-  const topic = topicByNumber(topicNumber);
+  const { trackId, topicNumber } = useParams();
+  const track = trackById(trackId);
+  const topic = track?.topics.find(
+    (item) => item.number === Number(topicNumber),
+  );
 
-  if (!topic) return <NotFoundPage />;
-  return <TopicDetail topic={topic} />;
+  if (!track || !topic) return <NotFoundPage />;
+  return <TopicDetail track={track} topic={topic} />;
 }
 
-function TopicDetail({ topic }) {
-  useDocumentTitle(`${topic.title} — Inference Engineering`);
+function TopicDetail({ track, topic }) {
+  useDocumentTitle(`${topic.title} — ${track.shortTitle} — Inference Engineering`);
 
-  const phase = phaseForTopic(topic.number);
-  const index = allTopics.findIndex((item) => item.number === topic.number);
-  const previousTopic = index > 0 ? allTopics[index - 1] : null;
+  const index = track.topics.findIndex(
+    (item) => item.number === topic.number,
+  );
+  const previousTopic = index > 0 ? track.topics[index - 1] : null;
   const nextTopic =
-    index < allTopics.length - 1 ? allTopics[index + 1] : null;
+    index < track.topics.length - 1 ? track.topics[index + 1] : null;
 
-  const { phaseStats, isComplete, setLastVisited } = useProgress();
-  const stats = phaseStats[phase.id];
+  const { trackStats, isComplete, setLastVisited } = useProgress();
+  const stats = trackStats[track.id];
   const complete = isComplete(topic.number);
+  const otherTracks = tracks.filter((item) => item.id !== track.id);
 
   const notesAvailable = hasNotes(topic.number);
   const [markdown, setMarkdown] = useState(null);
@@ -97,15 +101,15 @@ function TopicDetail({ topic }) {
     <div className="page topic-page">
       <Breadcrumbs
         items={[
-          { label: 'Curriculum', to: '/' },
-          { label: `Phase ${pad(phase.id, 2)}`, to: phasePath(phase.id) },
+          { label: 'Tracks', to: '/tracks' },
+          { label: `Track ${pad(track.id, 2)}`, to: trackPath(track.id) },
           { label: `Topic ${pad(topic.number)}` },
         ]}
       />
 
       <header className="topic-head">
         <p className="eyebrow">
-          Phase {pad(phase.id, 2)} · {phase.tag} · Topic{' '}
+          Track {pad(track.id, 2)} · {track.tag} · Topic{' '}
           {pad(topic.number)}
         </p>
         <h1>{topic.title}</h1>
@@ -155,27 +159,27 @@ function TopicDetail({ topic }) {
               <h2>Notes for this topic are on the way.</h2>
               <p>
                 The written lesson and video walkthrough will appear here. For
-                now, use the phase outline to keep moving, or mark this topic
+                now, use the track outline to keep moving, or mark this topic
                 complete after studying it your own way.
               </p>
               <div className="empty-actions">
                 <Link
                   className="btn btn-secondary"
-                  to={phasePath(phase.id)}
+                  to={trackPath(track.id)}
                 >
-                  <ArrowLeftIcon size={15} /> Back to phase
+                  <ArrowLeftIcon size={15} /> Back to track
                 </Link>
                 {nextTopic && (
                   <Link
                     className="btn btn-primary"
-                    to={topicPath(nextTopic.number)}
+                    to={trackTopicPath(track.id, nextTopic.number)}
                   >
                     Next topic <ArrowRightIcon size={15} />
                   </Link>
                 )}
               </div>
               <p className="empty-note">
-                Lessons are added as the path is written.
+                Lessons are added as the track is written.
               </p>
             </section>
           )}
@@ -186,17 +190,40 @@ function TopicDetail({ topic }) {
               <p>
                 {complete
                   ? 'Nice. Keep the momentum going with the next topic.'
-                  : 'Mark it complete to keep track of where you are in the path.'}
+                  : 'Mark it complete to keep track of where you are in the track.'}
               </p>
             </div>
             <CompleteButton number={topic.number} />
           </section>
 
+          {!nextTopic && complete && (
+            <section className="track-complete-card">
+              <p className="eyebrow">Track complete</p>
+              <h2>You finished {track.shortTitle}.</h2>
+              <p>
+                All {stats.total} topics in this track are complete. Pick
+                another track to keep going.
+              </p>
+              <div className="track-complete-actions">
+                {otherTracks.map((item) => (
+                  <Link
+                    className="btn btn-secondary"
+                    to={trackPath(item.id)}
+                    key={item.id}
+                  >
+                    Track {pad(item.id, 2)} · {item.shortTitle}
+                    <ArrowRightIcon size={15} />
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
           <nav className="topic-pager" aria-label="Topic navigation">
             {previousTopic ? (
               <Link
                 className="pager-card prev"
-                to={topicPath(previousTopic.number)}
+                to={trackTopicPath(track.id, previousTopic.number)}
               >
                 <span>
                   <ArrowLeftIcon size={14} /> Previous topic
@@ -204,13 +231,21 @@ function TopicDetail({ topic }) {
                 <strong>{previousTopic.title}</strong>
               </Link>
             ) : (
-              <span className="pager-spacer" aria-hidden="true" />
+              <Link
+                className="pager-card prev"
+                to={trackPath(track.id)}
+              >
+                <span>
+                  <ArrowLeftIcon size={14} /> Track overview
+                </span>
+                <strong>{track.title}</strong>
+              </Link>
             )}
 
             {nextTopic ? (
               <Link
                 className="pager-card next"
-                to={topicPath(nextTopic.number)}
+                to={trackTopicPath(track.id, nextTopic.number)}
               >
                 <span>
                   Next topic <ArrowRightIcon size={14} />
@@ -218,7 +253,15 @@ function TopicDetail({ topic }) {
                 <strong>{nextTopic.title}</strong>
               </Link>
             ) : (
-              <span className="pager-spacer" aria-hidden="true" />
+              <Link
+                className="pager-card next"
+                to={trackPath(track.id)}
+              >
+                <span>
+                  Track overview <ArrowRightIcon size={14} />
+                </span>
+                <strong>{track.title}</strong>
+              </Link>
             )}
           </nav>
         </div>
@@ -246,7 +289,7 @@ function TopicDetail({ topic }) {
           )}
 
           <section className="rail-card">
-            <h2>Phase {pad(phase.id, 2)} progress</h2>
+            <h2>Track {pad(track.id, 2)} progress</h2>
             <div className="rail-progress">
               <strong>{stats.done}</strong>
               <span>/ {stats.total} complete</span>
@@ -255,24 +298,24 @@ function TopicDetail({ topic }) {
               value={stats.done}
               max={stats.total}
               size="sm"
-              label={`${phase.title} progress`}
+              label={`${track.title} progress`}
             />
-            <Link className="rail-link" to={phasePath(phase.id)}>
-              View phase <ArrowRightIcon size={14} />
+            <Link className="rail-link" to={trackPath(track.id)}>
+              View track <ArrowRightIcon size={14} />
             </Link>
           </section>
 
-          <section className="rail-card rail-phase-card">
-            <h2>In this phase</h2>
-            <ol className="rail-phase-list">
-              {phase.topics.map((item) => {
+          <section className="rail-card rail-track-card">
+            <h2>In this track</h2>
+            <ol className="rail-track-list">
+              {track.topics.map((item) => {
                 const current = item.number === topic.number;
                 const done = isComplete(item.number);
 
                 return (
                   <li key={item.number}>
                     <Link
-                      to={topicPath(item.number)}
+                      to={trackTopicPath(track.id, item.number)}
                       className={cx(
                         'rail-topic',
                         current && 'is-active',

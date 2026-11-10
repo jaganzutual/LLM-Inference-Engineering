@@ -1,11 +1,30 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import Brand from './Brand.jsx';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { trackById } from '../data/tracks.js';
+import NotFoundPage from '../pages/NotFoundPage.jsx';
+import PublicLayout from './PublicLayout.jsx';
 import SearchDialog from './SearchDialog.jsx';
 import Sidebar from './Sidebar.jsx';
+import SiteFooter from './SiteFooter.jsx';
 import SiteHeader from './SiteHeader.jsx';
+import SkipLink from './SkipLink.jsx';
 
-export default function AppShell() {
+export default function TrackShell() {
+  const { trackId } = useParams();
+  const track = trackById(trackId);
+
+  if (!track) {
+    return (
+      <PublicLayout>
+        <NotFoundPage />
+      </PublicLayout>
+    );
+  }
+
+  return <TrackWorkspace track={track} />;
+}
+
+function TrackWorkspace({ track }) {
   const [navOpen, setNavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
@@ -83,20 +102,10 @@ export default function AppShell() {
 
   return (
     <div className="app">
-      <a
-        href="#main-content"
-        className="skip-link"
-        onClick={(event) => {
-          event.preventDefault();
-          const main = document.getElementById('main-content');
-          main?.focus();
-          main?.scrollIntoView({ block: 'start' });
-        }}
-      >
-        Skip to content
-      </a>
+      <SkipLink />
 
       <SiteHeader
+        track={track}
         navOpen={navOpen}
         onOpenNav={() => setNavOpen((current) => !current)}
         onOpenSearch={() => setSearchOpen(true)}
@@ -106,6 +115,7 @@ export default function AppShell() {
 
       <div className="app-body">
         <Sidebar
+          track={track}
           open={navOpen}
           onClose={closeNav}
           onNavigate={closeNavOnNavigate}
@@ -121,19 +131,7 @@ export default function AppShell() {
         </main>
       </div>
 
-      <footer className="site-footer">
-        <div className="footer-inner">
-          <Brand />
-          <p>A structured path through LLM inference engineering.</p>
-          <a
-            href="https://github.com/jaganzutual/LLM-Inference-Engineering"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Built in public on GitHub
-          </a>
-        </div>
-      </footer>
+      <SiteFooter />
 
       <SearchDialog open={searchOpen} onClose={closeSearch} />
     </div>

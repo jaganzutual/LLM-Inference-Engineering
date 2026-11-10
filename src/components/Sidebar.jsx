@@ -1,52 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useMatch } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Link, useMatch } from 'react-router-dom';
 import {
-  phaseForTopic,
-  phasePath,
-  phases,
-  topicPath,
-  totalTopics,
-} from '../data/curriculum.js';
+  trackPath,
+  tracks,
+} from '../data/tracks.js';
 import { useProgress } from '../lib/progress.jsx';
 import { cx, pad } from '../lib/utils.js';
 import ProgressBar from './ProgressBar.jsx';
 import {
   CheckIcon,
-  ChevronDownIcon,
   ListIcon,
   XIcon,
 } from './Icons.jsx';
 
-export default function Sidebar({ open, onClose, onNavigate }) {
-  const location = useLocation();
-  const phaseMatch = useMatch('/phase/:phaseId');
-  const topicMatch = useMatch('/topic/:topicNumber');
-  const { completedCount, percent, phaseStats, isComplete } = useProgress();
-
-  const activePhaseId = phaseMatch
-    ? Number(phaseMatch.params.phaseId)
-    : topicMatch
-      ? (phaseForTopic(Number(topicMatch.params.topicNumber))?.id ?? null)
-      : null;
+export default function Sidebar({ track, open, onClose, onNavigate }) {
+  const topicMatch = useMatch('/track/:trackId/topic/:topicNumber');
+  const { trackStats, isComplete } = useProgress();
+  const stats = trackStats[track.id];
   const activeTopicNumber = topicMatch
     ? Number(topicMatch.params.topicNumber)
     : null;
-  const onHome = location.pathname === '/';
 
-  const [expanded, setExpanded] = useState(
-    () => new Set(activePhaseId ? [activePhaseId] : []),
-  );
   const closeButtonRef = useRef(null);
-
-  useEffect(() => {
-    if (!activePhaseId) return;
-    setExpanded((current) => {
-      if (current.has(activePhaseId)) return current;
-      const next = new Set(current);
-      next.add(activePhaseId);
-      return next;
-    });
-  }, [activePhaseId]);
+  const activeTopicRef = useRef(null);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -56,141 +32,132 @@ export default function Sidebar({ open, onClose, onNavigate }) {
     return () => cancelAnimationFrame(frame);
   }, [open]);
 
-  const togglePhase = (phaseId) => {
-    setExpanded((current) => {
-      const next = new Set(current);
-      if (next.has(phaseId)) next.delete(phaseId);
-      else next.add(phaseId);
-      return next;
-    });
-  };
+  useEffect(() => {
+    if (!open) return;
+    activeTopicRef.current?.scrollIntoView({ block: 'center' });
+  }, [activeTopicNumber, open]);
 
   return (
     <aside
       id="curriculum-nav"
       className={cx('sidebar', open && 'is-open')}
-      aria-label="Curriculum navigation"
+      aria-label="Track navigation"
     >
       <div className="sidebar-head">
         <div className="sidebar-head-row">
-          <span className="sidebar-label">Curriculum</span>
+          <span className="sidebar-label">Track {pad(track.id, 2)}</span>
           <button
             ref={closeButtonRef}
             type="button"
             className="icon-button sidebar-close"
             onClick={onClose}
-            aria-label="Close curriculum navigation"
+            aria-label="Close track navigation"
           >
             <XIcon size={18} />
           </button>
         </div>
 
+        <Link
+          className="sidebar-track-title"
+          to={trackPath(track.id)}
+          onClick={onNavigate}
+        >
+          {track.title}
+        </Link>
+
         <div className="sidebar-progress">
           <div>
-            <strong>{completedCount}</strong>
-            <span> / {totalTopics} complete</span>
+            <strong>{stats.done}</strong>
+            <span> / {stats.total} complete</span>
           </div>
-          <span>{percent}%</span>
+          <span>{stats.percent}%</span>
         </div>
         <ProgressBar
-          value={completedCount}
-          max={totalTopics}
+          value={stats.done}
+          max={stats.total}
           size="sm"
-          label="Overall curriculum progress"
+          label={`${track.title} progress`}
         />
       </div>
 
-      <nav className="sidebar-nav" aria-label="Learning path">
-        <Link
-          to="/"
-          className={cx('sidebar-overview', onHome && 'is-active')}
-          onClick={onNavigate}
-        >
+      <nav className="sidebar-nav" aria-label="Track contents">
+        <Link to="/tracks" className="sidebar-overview" onClick={onNavigate}>
           <ListIcon size={15} />
-          Overview
+          All tracks
         </Link>
 
-        <div className="sidebar-phases">
-          {phases.map((phase) => {
-            const stats = phaseStats[phase.id];
-            const isActive = activePhaseId === phase.id;
-            const isExpanded = expanded.has(phase.id);
-
+        <div className="sidebar-switcher">
+          <div className="sidebar-section-label">Switch track</div>
+          {tracks.map((item) => {
+            const itemStats = trackStats[item.id];
             return (
-              <div
-                key={phase.id}
-                className={cx('sidebar-phase', isActive && 'is-active')}
-              >
-                <div className="sidebar-phase-row">
-                  <Link
-                    to={phasePath(phase.id)}
-                    className="sidebar-phase-link"
-                    onClick={onNavigate}
-                  >
-                    <span className="sidebar-phase-number">
-                      {pad(phase.id, 2)}
-                    </span>
-                    <span className="sidebar-phase-copy">
-                      <span>{phase.title}</span>
-                      <small>
-                        {stats.done}/{stats.total} complete
-                      </small>
-                    </span>
-                  </Link>
-                  <button
-                    type="button"
-                    className="sidebar-expand"
-                    onClick={() => togglePhase(phase.id)}
-                    aria-expanded={isExpanded}
-                    aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${
-                      phase.title
-                    } topics`}
-                  >
-                    <ChevronDownIcon
-                      size={14}
-                      className={cx('chevron', isExpanded && 'is-rotated')}
-                    />
-                  </button>
-                </div>
-
-                {isExpanded && (
-                  <ul className="sidebar-topics">
-                    {phase.topics.map((topic) => (
-                      <li key={topic.number}>
-                        <Link
-                          to={topicPath(topic.number)}
-                          className={cx(
-                            'sidebar-topic',
-                            activeTopicNumber === topic.number && 'is-active',
-                          )}
-                          onClick={onNavigate}
-                        >
-                          <span className="sidebar-topic-number">
-                            {pad(topic.number)}
-                          </span>
-                          <span className="sidebar-topic-title">
-                            {topic.title}
-                          </span>
-                          {isComplete(topic.number) && (
-                            <CheckIcon
-                              size={12}
-                              className="sidebar-topic-check"
-                            />
-                          )}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+              <Link
+                key={item.id}
+                to={trackPath(item.id)}
+                className={cx(
+                  'sidebar-switch',
+                  item.id === track.id && 'is-active',
                 )}
-              </div>
+                onClick={onNavigate}
+              >
+                <span className="sidebar-switch-number">
+                  {pad(item.id, 2)}
+                </span>
+                <span className="sidebar-switch-title">
+                  {item.shortTitle}
+                </span>
+                <span className="sidebar-switch-count">
+                  {itemStats.done}/{itemStats.total}
+                </span>
+              </Link>
             );
           })}
         </div>
+
+        <div className="sidebar-section-head">
+          <span>Topics</span>
+          <span>{stats.total}</span>
+        </div>
+
+        <ul className="sidebar-topics">
+          {track.topics.map((topic) => {
+            const active = activeTopicNumber === topic.number;
+            const done = isComplete(topic.number);
+
+            return (
+              <li key={topic.number}>
+                <Link
+                  ref={active ? activeTopicRef : undefined}
+                  to={`${trackPath(track.id)}/topic/${topic.number}`}
+                  className={cx(
+                    'sidebar-topic',
+                    active && 'is-active',
+                  )}
+                  onClick={onNavigate}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  <span className="sidebar-topic-number">
+                    {pad(topic.number)}
+                  </span>
+                  <span className="sidebar-topic-title">
+                    {topic.title}
+                  </span>
+                  {done && (
+                    <CheckIcon
+                      size={12}
+                      className="sidebar-topic-check"
+                    />
+                  )}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
 
       <div className="sidebar-foot">
-        <span>{phases.length} phases</span>
-        <span>{totalTopics} topics</span>
+        <span>{tracks.length} tracks</span>
+        <span>{stats.done}/{stats.total} done</span>
       </div>
     </aside>
   );

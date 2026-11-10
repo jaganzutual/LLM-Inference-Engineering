@@ -13,8 +13,8 @@ export default function NotFoundPage() {
         The link may be old, or the topic may have moved. Head back to the
         curriculum and pick up where you left off.
       </p>
-      <Link className="btn btn-primary" to="/">
-        <ArrowLeftIcon size={16} /> Back to the curriculum
+      <Link className="btn btn-primary" to="/tracks">
+        <ArrowLeftIcon size={16} /> Back to tracks
       </Link>
     </div>
   );

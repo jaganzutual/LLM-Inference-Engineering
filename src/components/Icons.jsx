@@ -177,3 +177,11 @@ export function GithubIcon({ size = 18, className, ...props }) {
     </svg>
   );
 }
+
+export function StarIcon(props) {
+  return (
+    <Icon {...props}>
+      <path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.2 5.9-.9L12 3.5Z" />
+    </Icon>
+  );
+}

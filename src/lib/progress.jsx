@@ -6,11 +6,13 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { totalTopics } from '../data/curriculum.js';
 import {
-  allTopics,
-  phases,
-  totalTopics,
-} from '../data/curriculum.js';
+  trackForTopic,
+  trackTopics,
+  tracks,
+  totalTrackTopics,
+} from '../data/tracks.js';
 
 const STORAGE_KEY = 'inference:progress:v1';
 const ProgressContext = createContext(null);
@@ -93,19 +95,19 @@ export function ProgressProvider({ children }) {
     [completedSet],
   );
 
-  const phaseStats = useMemo(() => {
+  const trackStats = useMemo(() => {
     const result = {};
 
-    for (const phase of phases) {
-      const done = phase.topics.reduce(
+    for (const track of tracks) {
+      const done = track.topics.reduce(
         (count, topic) => count + (completedSet.has(topic.number) ? 1 : 0),
         0,
       );
-      result[phase.id] = {
+      result[track.id] = {
         done,
-        total: phase.topics.length,
-        percent: phase.topics.length
-          ? Math.round((done / phase.topics.length) * 100)
+        total: track.topics.length,
+        percent: track.topics.length
+          ? Math.round((done / track.topics.length) * 100)
           : 0,
       };
     }
@@ -113,18 +115,27 @@ export function ProgressProvider({ children }) {
     return result;
   }, [completedSet]);
 
-  const nextTopic = useMemo(() => {
-    const lastIndex = allTopics.findIndex(
+  const completedCount = useMemo(
+    () =>
+      trackTopics.reduce(
+        (count, topic) => count + (completedSet.has(topic.number) ? 1 : 0),
+        0,
+      ),
+    [completedSet],
+  );
+
+  const nextTrackTopic = useMemo(() => {
+    const lastIndex = trackTopics.findIndex(
       (topic) => topic.number === state.lastVisited,
     );
 
     if (lastIndex >= 0) {
-      const lastVisited = allTopics[lastIndex];
+      const lastVisited = trackTopics[lastIndex];
       if (!completedSet.has(lastVisited.number)) return lastVisited;
 
-      for (let offset = 1; offset <= allTopics.length; offset += 1) {
+      for (let offset = 1; offset <= trackTopics.length; offset += 1) {
         const candidate =
-          allTopics[(lastIndex + offset) % allTopics.length];
+          trackTopics[(lastIndex + offset) % trackTopics.length];
         if (!completedSet.has(candidate.number)) return candidate;
       }
 
@@ -132,40 +143,46 @@ export function ProgressProvider({ children }) {
     }
 
     return (
-      allTopics.find((topic) => !completedSet.has(topic.number)) ??
-      allTopics[0]
+      trackTopics.find((topic) => !completedSet.has(topic.number)) ??
+      trackTopics[0]
     );
   }, [completedSet, state.lastVisited]);
 
-  const nextTopicInPhase = useCallback(
-    (phase) =>
-      phase.topics.find((topic) => !completedSet.has(topic.number)) ??
-      phase.topics[0],
+  const continueTrack = useMemo(
+    () => trackForTopic(nextTrackTopic.number) ?? tracks[0],
+    [nextTrackTopic],
+  );
+
+  const nextTopicInTrack = useCallback(
+    (track) =>
+      track.topics.find((topic) => !completedSet.has(topic.number)) ??
+      track.topics[0],
     [completedSet],
   );
 
   const value = useMemo(
     () => ({
-      completed: state.completed,
-      completedCount: state.completed.length,
-      percent: Math.round((state.completed.length / totalTopics) * 100),
+      completedCount,
+      percent: Math.round((completedCount / totalTrackTopics) * 100),
       lastVisited: state.lastVisited,
       isComplete,
       toggle,
       setLastVisited,
-      phaseStats,
-      nextTopic,
-      nextTopicInPhase,
+      trackStats,
+      nextTrackTopic,
+      nextTopicInTrack,
+      continueTrack,
     }),
     [
+      completedCount,
+      continueTrack,
       isComplete,
-      nextTopic,
-      nextTopicInPhase,
-      phaseStats,
+      nextTopicInTrack,
+      nextTrackTopic,
       setLastVisited,
-      state.completed,
       state.lastVisited,
       toggle,
+      trackStats,
     ],
   );
 

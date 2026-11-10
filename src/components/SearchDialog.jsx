@@ -1,12 +1,13 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  allTopics,
-  phaseForTopic,
-  phasePath,
-  phases,
-  topicPath,
-} from '../data/curriculum.js';
+  trackForTopic,
+  trackPath,
+  trackTopicPath,
+  trackTopics,
+  tracks,
+  totalTrackTopics,
+} from '../data/tracks.js';
 import { cx, pad } from '../lib/utils.js';
 import {
   ChevronRightIcon,
@@ -23,7 +24,7 @@ export default function SearchDialog({ open, onClose }) {
   const results = useMemo(() => {
     const term = query.trim().toLowerCase();
     const topicMatches = term
-      ? allTopics
+      ? trackTopics
           .filter(
             (topic) =>
               topic.title.toLowerCase().includes(term) ||
@@ -31,35 +32,36 @@ export default function SearchDialog({ open, onClose }) {
           )
           .slice(0, 8)
       : [];
-    const phaseMatches = phases
+    const trackMatches = tracks
       .filter(
-        (phase) =>
+        (track) =>
           !term ||
-          phase.title.toLowerCase().includes(term) ||
-          phase.tag.toLowerCase().includes(term) ||
-          pad(phase.id, 2) === term,
+          track.title.toLowerCase().includes(term) ||
+          track.shortTitle.toLowerCase().includes(term) ||
+          track.tag.toLowerCase().includes(term) ||
+          pad(track.id, 2) === term,
       )
-      .slice(0, term ? 4 : 10);
+      .slice(0, term ? 3 : 3);
 
     return [
       ...topicMatches.map((topic) => {
-        const phase = phaseForTopic(topic.number);
+        const track = trackForTopic(topic.number);
         return {
           kind: 'topic',
           id: `topic-${topic.number}`,
           number: pad(topic.number),
           title: topic.title,
-          meta: `Phase ${pad(phase.id, 2)} · ${phase.title}`,
-          href: topicPath(topic.number),
+          meta: `Track ${pad(track.id, 2)} · ${track.shortTitle}`,
+          href: trackTopicPath(track.id, topic.number),
         };
       }),
-      ...phaseMatches.map((phase) => ({
-        kind: 'phase',
-        id: `phase-${phase.id}`,
-        number: pad(phase.id, 2),
-        title: phase.title,
-        meta: `${phase.tag} · ${phase.topics.length} topics`,
-        href: phasePath(phase.id),
+      ...trackMatches.map((track) => ({
+        kind: 'track',
+        id: `track-${track.id}`,
+        number: pad(track.id, 2),
+        title: track.title,
+        meta: `${track.tag} · ${track.topics.length} topics`,
+        href: trackPath(track.id),
       })),
     ];
   }, [query]);
@@ -138,7 +140,7 @@ export default function SearchDialog({ open, onClose }) {
       }}
     >
       <h2 id="search-title" className="sr-only">
-        Search the curriculum
+        Search the tracks
       </h2>
 
       <div className="search-input-row">
@@ -149,8 +151,8 @@ export default function SearchDialog({ open, onClose }) {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Search 180 topics or 10 phases…"
-          aria-label="Search topics and phases"
+          placeholder={`Search ${totalTrackTopics} topics or ${tracks.length} tracks…`}
+          aria-label="Search topics and tracks"
           role="combobox"
           aria-autocomplete="list"
           aria-controls="search-results"
@@ -170,8 +172,8 @@ export default function SearchDialog({ open, onClose }) {
       >
         {results.length === 0 ? (
           <div className="search-empty">
-            <p>No topics or phases match “{query.trim()}”.</p>
-            <span>Try a topic title, a phase name, or a number like 049.</span>
+            <p>No topics or tracks match “{query.trim()}”.</p>
+            <span>Try a topic title, a track name, or a number like 049.</span>
           </div>
         ) : (
           results.map((result, index) => (
@@ -179,7 +181,7 @@ export default function SearchDialog({ open, onClose }) {
               {(index === 0 ||
                 results[index - 1].kind !== result.kind) && (
                 <div className="search-group">
-                  {result.kind === 'topic' ? 'Topics' : 'Phases'}
+                  {result.kind === 'topic' ? 'Topics' : 'Tracks'}
                 </div>
               )}
               <button
@@ -200,7 +202,7 @@ export default function SearchDialog({ open, onClose }) {
                   <small>{result.meta}</small>
                 </span>
                 <span className="search-result-kind">
-                  {result.kind === 'topic' ? 'Topic' : 'Phase'}
+                  {result.kind === 'topic' ? 'Topic' : 'Track'}
                 </span>
                 <ChevronRightIcon size={15} />
               </button>

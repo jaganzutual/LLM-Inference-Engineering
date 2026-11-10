@@ -1,173 +1,6 @@
 /* ------------------------------------------------------------------
-   Pages
+   Track workspace and shared page sections
    ------------------------------------------------------------------ */
-
-/* Home */
-
-.home-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.8fr);
-  gap: 56px;
-  align-items: end;
-  padding: 32px 0 44px;
-  border-bottom: 1px solid var(--border);
-}
-
-.home-hero h1 {
-  max-width: 14ch;
-  margin: 16px 0 18px;
-  font-size: var(--text-hero);
-  letter-spacing: -0.05em;
-  line-height: 1.02;
-}
-
-.home-hero .lead {
-  max-width: 56ch;
-  color: var(--text-soft);
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.hero-flow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-top: 26px;
-  color: var(--text-muted);
-  font-size: 11px;
-}
-
-.hero-flow span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.hero-flow svg {
-  color: var(--accent);
-  opacity: 0.9;
-}
-
-.hero-flow i {
-  color: var(--text-faint);
-  font-style: normal;
-}
-
-.progress-panel {
-  position: relative;
-  padding: 24px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-}
-
-.progress-panel::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), transparent 70%);
-  content: '';
-  opacity: 0.75;
-}
-
-.progress-panel-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--text-muted);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.progress-panel-head .mono {
-  color: var(--accent);
-  font-size: 10.5px;
-  letter-spacing: 0;
-}
-
-.progress-panel-value {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin: 18px 0 14px;
-}
-
-.progress-panel-value strong {
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: 46px;
-  font-weight: 600;
-  letter-spacing: -0.05em;
-  line-height: 0.9;
-}
-
-.progress-panel-value span {
-  color: var(--text-muted);
-  font-size: 12px;
-}
-
-.progress-panel-next {
-  padding-top: 18px;
-  margin-top: 22px;
-  border-top: 1px solid var(--border);
-}
-
-.progress-panel-next .eyebrow {
-  margin-bottom: 7px;
-}
-
-.progress-panel-next a {
-  display: flex;
-  gap: 9px;
-  color: var(--text);
-  font-size: 12.5px;
-  line-height: 1.45;
-  transition: color var(--transition-fast);
-}
-
-.progress-panel-next a .mono {
-  flex: none;
-  padding-top: 2px;
-  color: var(--accent);
-  font-size: 10px;
-}
-
-.progress-panel-next a:hover {
-  color: var(--accent);
-}
-
-.progress-panel-note {
-  margin-top: 16px;
-  color: var(--text-faint);
-  font-size: 10.5px;
-  line-height: 1.5;
-}
-
-.progress-panel-done {
-  padding-top: 18px;
-  margin-top: 22px;
-  border-top: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 11.5px;
-  line-height: 1.6;
-}
-
-.section {
-  padding-top: 44px;
-  scroll-margin-top: calc(var(--header-height) + 16px);
-}
 
 .section-heading {
   display: flex;
@@ -203,69 +36,180 @@
   font-size: 11px;
 }
 
-.phase-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
+/* Track overview */
 
-/* Phase */
-
-.phase-hero {
+.track-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 48px;
-  align-items: end;
+  align-items: start;
   padding-bottom: 32px;
   border-bottom: 1px solid var(--border);
 }
 
-.phase-hero .eyebrow {
+.track-hero .eyebrow {
   gap: 10px;
 }
 
-.phase-hero h1 {
+.track-hero h1 {
   max-width: 18ch;
   margin: 12px 0 14px;
   font-size: var(--text-3xl);
 }
 
-.phase-hero .lead {
+.track-hero .lead {
   max-width: 58ch;
   font-size: 14px;
 }
 
-.phase-hero-progress {
+.track-outcomes {
+  margin-top: 26px;
+}
+
+.track-outcomes h2 {
+  margin-bottom: 10px;
+  color: var(--text-faint);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.track-outcomes ul {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.track-outcomes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--text-soft);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.track-outcomes svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--text-faint);
+}
+
+.track-progress-card {
   padding: 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
 }
 
-.phase-hero-count {
+.track-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-faint);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.track-progress-head span:last-child {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+
+.track-progress-value {
   display: flex;
   align-items: baseline;
   gap: 6px;
-  margin-bottom: 12px;
+  margin: 14px 0 12px;
   color: var(--text-muted);
   font-size: 11px;
 }
 
-.phase-hero-count strong {
+.track-progress-value strong {
   color: var(--text);
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
 }
 
-.phase-hero-progress .btn {
+.track-progress-card .btn {
   width: 100%;
   margin-top: 16px;
 }
 
-.phase-topics {
+.track-progress-note {
+  margin-top: 12px;
+  color: var(--text-faint);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.track-topics {
   padding-top: 32px;
+}
+
+.track-switch-section {
+  padding-top: 40px;
+  margin-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.track-switch-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.track-switch-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 44px 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition: border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.track-switch-card:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.track-switch-index {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.track-switch-card strong {
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.track-switch-meta {
+  color: var(--text-muted);
+  font-size: 10.5px;
+}
+
+.track-switch-card > svg {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  color: var(--text-faint);
 }
 
 /* Topic */
@@ -343,7 +287,7 @@
   margin-top: 24px;
 }
 
-/* Responsive pages */
+/* Responsive */
 
 @media (max-width: 1280px) {
   .topic-layout {
@@ -356,25 +300,12 @@
 }
 
 @media (max-width: 1240px) {
-  .home-hero {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 32px;
-    align-items: start;
-    padding-top: 24px;
-  }
-
-  .progress-panel {
-    width: 100%;
-    max-width: 460px;
-  }
-
-  .phase-hero {
+  .track-hero {
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
-    align-items: start;
   }
 
-  .phase-hero-progress {
+  .track-progress-card {
     width: 100%;
     max-width: 460px;
   }
@@ -401,12 +332,8 @@
 }
 
 @media (max-width: 760px) {
-  .phase-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .topic-pager,
-  .phase-pager {
+  .track-switch-grid,
+  .topic-pager {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -421,44 +348,13 @@
   .topic-meta .complete-button {
     margin-left: 0;
   }
-
-  .progress-panel-value strong {
-    font-size: 40px;
-  }
 }
 
 @media (max-width: 480px) {
-  .home-hero h1 {
-    max-width: none;
-    font-size: clamp(2.2rem, 9vw, 2.8rem);
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .hero-actions .btn {
-    width: 100%;
-  }
-
-  .hero-flow {
-    gap: 6px;
-    font-size: 10.5px;
-  }
-
-  .hero-flow i {
-    display: none;
-  }
-
   .topic-head h1,
-  .phase-hero h1,
+  .track-hero h1,
   .not-found-page h1 {
     font-size: 2rem;
-  }
-
-  .empty-lesson h2 {
-    font-size: 24px;
   }
 
   .lesson-complete {

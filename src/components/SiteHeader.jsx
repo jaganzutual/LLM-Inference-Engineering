@@ -1,24 +1,27 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { totalTopics } from '../data/curriculum.js';
+import { Link } from 'react-router-dom';
+import { trackPath } from '../data/tracks.js';
 import { useProgress } from '../lib/progress.jsx';
+import { pad } from '../lib/utils.js';
 import Brand from './Brand.jsx';
+import GithubLink from './GithubLink.jsx';
 import ProgressRing from './ProgressRing.jsx';
 import ThemeToggle from './ThemeToggle.jsx';
 import {
-  GithubIcon,
   MenuIcon,
   SearchIcon,
 } from './Icons.jsx';
 
 export default function SiteHeader({
+  track,
   navOpen,
   onOpenNav,
   onOpenSearch,
   menuButtonRef,
   onNavigate,
 }) {
-  const { completedCount, percent } = useProgress();
+  const { trackStats } = useProgress();
+  const stats = trackStats[track.id];
   const [shortcut, setShortcut] = useState('Ctrl K');
 
   useEffect(() => {
@@ -34,7 +37,11 @@ export default function SiteHeader({
           type="button"
           className="icon-button menu-button"
           onClick={onOpenNav}
-          aria-label={navOpen ? 'Close curriculum navigation' : 'Open curriculum navigation'}
+          aria-label={
+            navOpen
+              ? 'Close curriculum navigation'
+              : 'Open curriculum navigation'
+          }
           aria-controls="curriculum-nav"
           aria-expanded={navOpen}
         >
@@ -42,6 +49,15 @@ export default function SiteHeader({
         </button>
 
         <Brand onClick={onNavigate} />
+
+        <Link
+          className="header-track-label"
+          to={trackPath(track.id)}
+          onClick={onNavigate}
+        >
+          Track {pad(track.id, 2)}
+          <span>{track.shortTitle}</span>
+        </Link>
 
         <div className="header-spacer" />
 
@@ -60,28 +76,19 @@ export default function SiteHeader({
 
         <Link
           className="header-progress"
-          to="/"
+          to={trackPath(track.id)}
           onClick={onNavigate}
-          aria-label={`${percent}% of the curriculum complete. Open the overview.`}
-          title={`${completedCount} of ${totalTopics} topics complete`}
+          aria-label={`${stats.percent}% of ${track.title} complete. Open the track overview.`}
+          title={`${stats.done} of ${stats.total} topics complete`}
         >
-          <ProgressRing value={percent} />
+          <ProgressRing value={stats.percent} />
           <span>
-            {completedCount}
-            <em>/{totalTopics}</em>
+            {stats.done}
+            <em>/{stats.total}</em>
           </span>
         </Link>
 
-        <a
-          className="icon-button github-link"
-          href="https://github.com/jaganzutual/LLM-Inference-Engineering"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="View the project on GitHub"
-          title="View on GitHub"
-        >
-          <GithubIcon size={18} />
-        </a>
+        <GithubLink className="site-github" />
 
         <ThemeToggle />
       </div>

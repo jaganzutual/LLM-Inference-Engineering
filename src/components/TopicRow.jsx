@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { trackTopicPath } from '../data/tracks.js';
 import { getVideoId } from '../data/videos.js';
 import { hasNotes } from '../lib/content.js';
 import { useProgress } from '../lib/progress.jsx';
@@ -9,7 +10,7 @@ import {
   PlayIcon,
 } from './Icons.jsx';
 
-export default function TopicRow({ topic }) {
+export default function TopicRow({ topic, trackId }) {
   const { isComplete } = useProgress();
   const completed = isComplete(topic.number);
   const notes = hasNotes(topic.number);
@@ -19,7 +20,7 @@ export default function TopicRow({ topic }) {
     <div className={cx('topic-row', completed && 'is-complete')}>
       <Link
         className="topic-row-link"
-        to={`/topic/${topic.number}`}
+        to={trackTopicPath(trackId, topic.number)}
         aria-label={`Topic ${pad(topic.number)}: ${topic.title}`}
       >
         <span className="topic-number">{pad(topic.number)}</span>
