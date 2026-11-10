@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import topics from '../topics.json';
 import syllabusUrl from '../LLM_Inference_Engineering_Public_Learning_Path.pdf?url';
 import '../styles.css';
