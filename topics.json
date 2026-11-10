@@ -1,0 +1,722 @@
+[
+  {
+    "number": 1,
+    "title": "Tensors, shapes, strides, broadcasting"
+  },
+  {
+    "number": 2,
+    "title": "Matrix multiplication and tensor operations"
+  },
+  {
+    "number": 3,
+    "title": "Computational graphs and autograd"
+  },
+  {
+    "number": 4,
+    "title": "Forward and backward propagation"
+  },
+  {
+    "number": 5,
+    "title": "Gradient descent, SGD and AdamW"
+  },
+  {
+    "number": 6,
+    "title": "nn.Module, parameters and buffers"
+  },
+  {
+    "number": 7,
+    "title": "DataLoader, batching and training loops"
+  },
+  {
+    "number": 8,
+    "title": "CPU/GPU tensor transfers and device management"
+  },
+  {
+    "number": 9,
+    "title": "PyTorch memory management and mixed precision"
+  },
+  {
+    "number": 10,
+    "title": "Text tokenization, BPE and vocabulary construction"
+  },
+  {
+    "number": 11,
+    "title": "Token embeddings and positional embeddings"
+  },
+  {
+    "number": 12,
+    "title": "Query, Key and Value projections"
+  },
+  {
+    "number": 13,
+    "title": "Scaled dot-product self-attention"
+  },
+  {
+    "number": 14,
+    "title": "Causal attention masking"
+  },
+  {
+    "number": 15,
+    "title": "Multi-head attention"
+  },
+  {
+    "number": 16,
+    "title": "Multi-query and grouped-query attention (MQA/GQA)"
+  },
+  {
+    "number": 17,
+    "title": "LayerNorm and RMSNorm"
+  },
+  {
+    "number": 18,
+    "title": "Feed-forward networks and activation functions"
+  },
+  {
+    "number": 19,
+    "title": "Residual connections and transformer blocks"
+  },
+  {
+    "number": 20,
+    "title": "Rotary positional embeddings (RoPE)"
+  },
+  {
+    "number": 21,
+    "title": "GPT-style decoder-only model architecture"
+  },
+  {
+    "number": 22,
+    "title": "Cross-entropy loss and next-token prediction"
+  },
+  {
+    "number": 23,
+    "title": "Training a small GPT model"
+  },
+  {
+    "number": 24,
+    "title": "Autoregressive text generation and sampling"
+  },
+  {
+    "number": 25,
+    "title": "Model weights, checkpoints and serialization"
+  },
+  {
+    "number": 26,
+    "title": "Training versus inference"
+  },
+  {
+    "number": 27,
+    "title": "Transformer forward-pass execution"
+  },
+  {
+    "number": 28,
+    "title": "Prefill versus decode"
+  },
+  {
+    "number": 29,
+    "title": "Autoregressive generation loop"
+  },
+  {
+    "number": 30,
+    "title": "KV-cache fundamentals"
+  },
+  {
+    "number": 31,
+    "title": "Implement KV caching from scratch"
+  },
+  {
+    "number": 32,
+    "title": "KV-cache memory calculation"
+  },
+  {
+    "number": 33,
+    "title": "Attention computation complexity"
+  },
+  {
+    "number": 34,
+    "title": "Memory bandwidth versus compute bottlenecks"
+  },
+  {
+    "number": 35,
+    "title": "Model weights, activations and memory footprint"
+  },
+  {
+    "number": 36,
+    "title": "FP32, FP16, BF16, FP8 and INT8 representations"
+  },
+  {
+    "number": 37,
+    "title": "Sampling: temperature, top-k, top-p and greedy decoding"
+  },
+  {
+    "number": 38,
+    "title": "Latency versus throughput"
+  },
+  {
+    "number": 39,
+    "title": "Time to first token (TTFT)"
+  },
+  {
+    "number": 40,
+    "title": "Time per output token (TPOT)"
+  },
+  {
+    "number": 41,
+    "title": "Inter-token latency"
+  },
+  {
+    "number": 42,
+    "title": "Tokens per second and requests per second"
+  },
+  {
+    "number": 43,
+    "title": "P50, P95 and P99 latency"
+  },
+  {
+    "number": 44,
+    "title": "Prefill/decode performance modeling"
+  },
+  {
+    "number": 45,
+    "title": "GPU utilization and memory utilization"
+  },
+  {
+    "number": 46,
+    "title": "Compute-bound versus memory-bound workloads"
+  },
+  {
+    "number": 47,
+    "title": "Arithmetic intensity and the roofline model"
+  },
+  {
+    "number": 48,
+    "title": "Benchmark warmups, synchronization and statistical validity"
+  },
+  {
+    "number": 49,
+    "title": "CPU versus GPU architecture"
+  },
+  {
+    "number": 50,
+    "title": "Streaming multiprocessors (SMs)"
+  },
+  {
+    "number": 51,
+    "title": "Threads, warps, blocks and grids"
+  },
+  {
+    "number": 52,
+    "title": "GPU execution and scheduling"
+  },
+  {
+    "number": 53,
+    "title": "Global, shared, local and register memory"
+  },
+  {
+    "number": 54,
+    "title": "L1/L2 caches and memory hierarchy"
+  },
+  {
+    "number": 55,
+    "title": "Memory coalescing and access patterns"
+  },
+  {
+    "number": 56,
+    "title": "Warp divergence and synchronization"
+  },
+  {
+    "number": 57,
+    "title": "Occupancy, register pressure and latency hiding"
+  },
+  {
+    "number": 58,
+    "title": "Tensor Cores and matrix operations"
+  },
+  {
+    "number": 59,
+    "title": "CUDA execution and asynchronous operations"
+  },
+  {
+    "number": 60,
+    "title": "CUDA events and accurate timing"
+  },
+  {
+    "number": 61,
+    "title": "PyTorch Profiler"
+  },
+  {
+    "number": 62,
+    "title": "NVIDIA Nsight Systems"
+  },
+  {
+    "number": 63,
+    "title": "NVIDIA Nsight Compute"
+  },
+  {
+    "number": 64,
+    "title": "Kernel launch overhead and CPU-GPU synchronization"
+  },
+  {
+    "number": 65,
+    "title": "Bandwidth, occupancy and roofline analysis"
+  },
+  {
+    "number": 66,
+    "title": "Hugging Face Transformers inference"
+  },
+  {
+    "number": 67,
+    "title": "Model loading and Safetensors"
+  },
+  {
+    "number": 68,
+    "title": "GPU memory allocation and out-of-memory handling"
+  },
+  {
+    "number": 69,
+    "title": "vLLM installation, serving and APIs"
+  },
+  {
+    "number": 70,
+    "title": "SGLang installation, serving and APIs"
+  },
+  {
+    "number": 71,
+    "title": "OpenAI-compatible inference APIs"
+  },
+  {
+    "number": 72,
+    "title": "Request concurrency and streaming responses"
+  },
+  {
+    "number": 73,
+    "title": "Workload generation and serving benchmarks"
+  },
+  {
+    "number": 74,
+    "title": "vLLM V1 architecture"
+  },
+  {
+    "number": 75,
+    "title": "Engine and model runner"
+  },
+  {
+    "number": 76,
+    "title": "Scheduler architecture"
+  },
+  {
+    "number": 77,
+    "title": "Continuous batching"
+  },
+  {
+    "number": 78,
+    "title": "Token budgets and scheduling policies"
+  },
+  {
+    "number": 79,
+    "title": "PagedAttention"
+  },
+  {
+    "number": 80,
+    "title": "KV-cache blocks and memory allocation"
+  },
+  {
+    "number": 81,
+    "title": "Prefix caching and block reuse"
+  },
+  {
+    "number": 82,
+    "title": "Chunked prefill"
+  },
+  {
+    "number": 83,
+    "title": "Request preemption and cache eviction"
+  },
+  {
+    "number": 84,
+    "title": "CUDA graphs and execution overhead"
+  },
+  {
+    "number": 85,
+    "title": "Trace a request through vLLM source code"
+  },
+  {
+    "number": 86,
+    "title": "SGLang SRT architecture"
+  },
+  {
+    "number": 87,
+    "title": "RadixAttention"
+  },
+  {
+    "number": 88,
+    "title": "Radix trees and prefix matching"
+  },
+  {
+    "number": 89,
+    "title": "HiCache and hierarchical KV caching"
+  },
+  {
+    "number": 90,
+    "title": "SGLang scheduling and continuous batching"
+  },
+  {
+    "number": 91,
+    "title": "Request routing and cache-aware scheduling"
+  },
+  {
+    "number": 92,
+    "title": "vLLM versus SGLang architecture and performance"
+  },
+  {
+    "number": 93,
+    "title": "Python asyncio and concurrency"
+  },
+  {
+    "number": 94,
+    "title": "C++ systems programming fundamentals"
+  },
+  {
+    "number": 95,
+    "title": "Processes, threads, locks and synchronization"
+  },
+  {
+    "number": 96,
+    "title": "Linux memory, scheduling and I/O"
+  },
+  {
+    "number": 97,
+    "title": "HTTP, HTTP/2, gRPC and streaming"
+  },
+  {
+    "number": 98,
+    "title": "Queueing theory and Little's Law"
+  },
+  {
+    "number": 99,
+    "title": "Load balancing and backpressure"
+  },
+  {
+    "number": 100,
+    "title": "Request admission control and rate limiting"
+  },
+  {
+    "number": 101,
+    "title": "Timeouts, retries and cancellation"
+  },
+  {
+    "number": 102,
+    "title": "Multi-tenant inference serving"
+  },
+  {
+    "number": 103,
+    "title": "Metrics, tracing, logging and observability"
+  },
+  {
+    "number": 104,
+    "title": "SLOs, failure handling and performance regression testing"
+  },
+  {
+    "number": 105,
+    "title": "CUDA C++ programming model"
+  },
+  {
+    "number": 106,
+    "title": "Kernel launches and grid configuration"
+  },
+  {
+    "number": 107,
+    "title": "Global/shared memory access optimization"
+  },
+  {
+    "number": 108,
+    "title": "Thread synchronization and warp-level primitives"
+  },
+  {
+    "number": 109,
+    "title": "Parallel reductions and scans"
+  },
+  {
+    "number": 110,
+    "title": "Matrix multiplication tiling"
+  },
+  {
+    "number": 111,
+    "title": "Tensor Core programming fundamentals"
+  },
+  {
+    "number": 112,
+    "title": "Kernel fusion and numerical correctness"
+  },
+  {
+    "number": 113,
+    "title": "Triton language and JIT compilation"
+  },
+  {
+    "number": 114,
+    "title": "Block pointers, layouts and tensor operations"
+  },
+  {
+    "number": 115,
+    "title": "Triton vector addition and reduction"
+  },
+  {
+    "number": 116,
+    "title": "Triton softmax and layer normalization"
+  },
+  {
+    "number": 117,
+    "title": "Triton matrix multiplication"
+  },
+  {
+    "number": 118,
+    "title": "Autotuning and kernel performance measurement"
+  },
+  {
+    "number": 119,
+    "title": "FlashAttention algorithm and implementation principles"
+  },
+  {
+    "number": 120,
+    "title": "Fused attention kernels and optimization"
+  },
+  {
+    "number": 121,
+    "title": "Weight quantization: INT8, INT4, FP8"
+  },
+  {
+    "number": 122,
+    "title": "GPTQ, AWQ and quantization calibration"
+  },
+  {
+    "number": 123,
+    "title": "KV-cache quantization and compression"
+  },
+  {
+    "number": 124,
+    "title": "Quantization accuracy and performance trade-offs"
+  },
+  {
+    "number": 125,
+    "title": "Speculative decoding fundamentals"
+  },
+  {
+    "number": 126,
+    "title": "Draft-model and verifier execution"
+  },
+  {
+    "number": 127,
+    "title": "Speculative decoding acceptance and scheduling"
+  },
+  {
+    "number": 128,
+    "title": "Prefix reuse and long-context optimization"
+  },
+  {
+    "number": 129,
+    "title": "Disaggregated prefill and decode"
+  },
+  {
+    "number": 130,
+    "title": "Attention backends and kernel selection"
+  },
+  {
+    "number": 131,
+    "title": "Mixture-of-Experts inference"
+  },
+  {
+    "number": 132,
+    "title": "Expert routing and load balancing"
+  },
+  {
+    "number": 133,
+    "title": "MLA and hybrid model architectures"
+  },
+  {
+    "number": 134,
+    "title": "Structured output and constrained decoding"
+  },
+  {
+    "number": 135,
+    "title": "GPU interconnects: PCIe, NVLink, NVSwitch"
+  },
+  {
+    "number": 136,
+    "title": "NCCL communication primitives"
+  },
+  {
+    "number": 137,
+    "title": "All-reduce, all-gather, reduce-scatter and all-to-all"
+  },
+  {
+    "number": 138,
+    "title": "Data parallelism"
+  },
+  {
+    "number": 139,
+    "title": "Tensor parallelism"
+  },
+  {
+    "number": 140,
+    "title": "Pipeline parallelism"
+  },
+  {
+    "number": 141,
+    "title": "Expert parallelism"
+  },
+  {
+    "number": 142,
+    "title": "Context/sequence parallelism"
+  },
+  {
+    "number": 143,
+    "title": "Combined multi-dimensional parallelism"
+  },
+  {
+    "number": 144,
+    "title": "Communication-computation overlap"
+  },
+  {
+    "number": 145,
+    "title": "RDMA and InfiniBand"
+  },
+  {
+    "number": 146,
+    "title": "Multi-node model serving"
+  },
+  {
+    "number": 147,
+    "title": "Distributed KV-cache management"
+  },
+  {
+    "number": 148,
+    "title": "Multi-GPU performance profiling"
+  },
+  {
+    "number": 149,
+    "title": "Compiler design fundamentals"
+  },
+  {
+    "number": 150,
+    "title": "Intermediate representations (IR)"
+  },
+  {
+    "number": 151,
+    "title": "LLVM and MLIR fundamentals"
+  },
+  {
+    "number": 152,
+    "title": "CUDA PTX and instruction-level concepts"
+  },
+  {
+    "number": 153,
+    "title": "Triton compiler architecture"
+  },
+  {
+    "number": 154,
+    "title": "PyTorch Dynamo and torch.compile"
+  },
+  {
+    "number": 155,
+    "title": "TorchInductor and custom operators"
+  },
+  {
+    "number": 156,
+    "title": "Kernel fusion and graph transformations"
+  },
+  {
+    "number": 157,
+    "title": "JAX and XLA execution fundamentals"
+  },
+  {
+    "number": 158,
+    "title": "TPU architecture and memory hierarchy"
+  },
+  {
+    "number": 159,
+    "title": "Pallas kernel programming"
+  },
+  {
+    "number": 160,
+    "title": "AMD ROCm and HIP fundamentals"
+  },
+  {
+    "number": 161,
+    "title": "AWS Trainium and Neuron fundamentals"
+  },
+  {
+    "number": 162,
+    "title": "Cross-accelerator numerical correctness and benchmarking"
+  },
+  {
+    "number": 163,
+    "title": "GPU fleet scheduling and resource allocation"
+  },
+  {
+    "number": 164,
+    "title": "Kubernetes and GPU operators"
+  },
+  {
+    "number": 165,
+    "title": "Model placement, autoscaling and capacity planning"
+  },
+  {
+    "number": 166,
+    "title": "Multi-region inference routing"
+  },
+  {
+    "number": 167,
+    "title": "Load shedding, overload protection and fault tolerance"
+  },
+  {
+    "number": 168,
+    "title": "GPU failure diagnosis and recovery"
+  },
+  {
+    "number": 169,
+    "title": "Cost-per-token optimization"
+  },
+  {
+    "number": 170,
+    "title": "Model rollout, canary deployments and rollback"
+  },
+  {
+    "number": 171,
+    "title": "Performance qualification and regression CI"
+  },
+  {
+    "number": 172,
+    "title": "Reproducible experiments and benchmark provenance"
+  },
+  {
+    "number": 173,
+    "title": "Read and reproduce inference-performance papers"
+  },
+  {
+    "number": 174,
+    "title": "Build automated kernel correctness verifiers"
+  },
+  {
+    "number": 175,
+    "title": "Automated optimization and kernel-search systems"
+  },
+  {
+    "number": 176,
+    "title": "Profile new model architectures and execution patterns"
+  },
+  {
+    "number": 177,
+    "title": "Investigate performance regressions in real runtimes"
+  },
+  {
+    "number": 178,
+    "title": "Design and validate an original runtime improvement"
+  },
+  {
+    "number": 179,
+    "title": "Contribute a meaningful change to vLLM, SGLang or Triton"
+  },
+  {
+    "number": 180,
+    "title": "Write technical reports explaining measurements and trade-offs"
+  }
+]
