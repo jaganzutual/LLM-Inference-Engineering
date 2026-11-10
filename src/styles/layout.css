@@ -102,36 +102,32 @@
 .track-switcher {
   display: flex;
   flex: none;
-  align-items: center;
-  gap: 2px;
-  padding: 3px;
-  margin-left: 2px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  background: var(--surface);
+  align-items: stretch;
+  height: 100%;
+  padding-left: 14px;
+  margin-left: 14px;
+  border-left: 1px solid var(--border);
 }
 
 .track-switch-tab {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 28px;
-  padding: 0 10px;
-  border-radius: 6px;
+  height: 100%;
+  padding: 0 12px;
   color: var(--text-muted);
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 500;
   white-space: nowrap;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 .track-switch-tab:hover {
-  background: var(--surface-2);
   color: var(--text);
 }
 
 .track-switch-tab.is-active {
-  background: var(--surface-2);
   box-shadow: inset 0 -2px var(--accent);
   color: var(--text);
 }
@@ -171,25 +167,24 @@
 }
 
 .marketing-github {
-  height: 36px;
-  padding: 0 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface);
   flex: none;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: var(--radius-md);
+}
+
+.marketing-github:hover {
+  background: var(--surface-2);
 }
 
 .site-header .github-link {
   flex: none;
   height: 36px;
-  padding: 0 9px;
-  border: 1px solid var(--border);
+  padding: 0 8px;
   border-radius: var(--radius-md);
-  background: var(--surface);
 }
 
 .site-header .github-link:hover {
-  border-color: var(--border-strong);
   background: var(--surface-2);
 }
 
@@ -472,16 +467,25 @@
     flex-wrap: wrap;
     height: auto;
     min-height: var(--header-height);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    row-gap: 8px;
+    padding-top: 0;
+    padding-bottom: 0;
+    row-gap: 0;
   }
 
   .app-header .track-switcher {
     order: 20;
     flex: 0 0 100%;
     justify-content: center;
+    height: 40px;
+    padding-left: 0;
     margin-left: 0;
+    border-top: 1px solid var(--border);
+    border-left: 0;
+  }
+
+  .app-header .track-switch-tab {
+    height: 40px;
+    padding: 0 14px;
   }
 
   .page {
@@ -536,18 +540,6 @@
   }
 
   .site-header:not(.marketing-header) .github-link {
-    display: none;
-  }
-
-  .site-header .search-trigger {
-    justify-content: center;
-    width: 36px;
-    min-width: 0;
-    padding: 0;
-  }
-
-  .site-header .search-trigger span,
-  .site-header .search-trigger kbd {
     display: none;
   }
 

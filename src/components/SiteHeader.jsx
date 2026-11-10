@@ -56,15 +56,14 @@ export default function SiteHeader({
 
         <button
           type="button"
-          className="search-trigger"
+          className="icon-button header-search"
           onClick={onOpenSearch}
-          aria-label="Search the curriculum"
+          aria-label={`Search topics (${shortcut})`}
+          title={`Search topics (${shortcut})`}
           aria-haspopup="dialog"
           aria-keyshortcuts="Control+K Meta+K"
         >
-          <SearchIcon size={16} />
-          <span>Search topics</span>
-          <kbd>{shortcut}</kbd>
+          <SearchIcon size={17} />
         </button>
 
         <Link
