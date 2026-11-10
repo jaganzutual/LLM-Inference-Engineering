@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
 import {
   trackPath,
-  trackTopicPath,
   tracks,
   totalTrackTopics,
 } from '../data/tracks.js';
-import { useProgress } from '../lib/progress.jsx';
 import useDocumentTitle from '../lib/useDocumentTitle.js';
 import GithubLink from '../components/GithubLink.jsx';
 import {
@@ -16,15 +14,6 @@ import { pad } from '../lib/utils.js';
 
 export default function HeroPage() {
   useDocumentTitle('Inference Engineering — Learn how LLMs actually run');
-
-  const {
-    completedCount,
-    trackStats,
-    continueTrack,
-    nextTrackTopic,
-  } = useProgress();
-  const hasProgress = completedCount > 0;
-  const allDone = completedCount === totalTrackTopics;
 
   return (
     <div className="hero-page">
@@ -42,27 +31,14 @@ export default function HeroPage() {
 
           <p className="hero-lead">
             Three focused tracks covering the foundations, inference, and GPU
-            performance. Pick one, go deep, and track every topic you finish.
+            performance. Pick one and go deep.
           </p>
 
           <div className="hero-actions">
-            {hasProgress && !allDone ? (
-              <Link
-                className="btn btn-primary"
-                to={trackTopicPath(
-                  continueTrack.id,
-                  nextTrackTopic.number,
-                )}
-              >
-                Continue {continueTrack.shortTitle}
-                <ArrowRightIcon size={16} />
-              </Link>
-            ) : (
-              <Link className="btn btn-primary" to="/tracks">
-                Choose a track
-                <ArrowRightIcon size={16} />
-              </Link>
-            )}
+            <Link className="btn btn-primary" to="/tracks">
+              Choose a track
+              <ArrowRightIcon size={16} />
+            </Link>
 
             <GithubLink
               className="btn btn-secondary hero-github"
@@ -79,7 +55,7 @@ export default function HeroPage() {
               <strong>{totalTrackTopics}</strong> ordered topics
             </span>
             <span>
-              <strong>Self-paced</strong> · progress saved locally
+              <strong>Self-paced</strong> · no account needed
             </span>
           </div>
         </div>
@@ -90,32 +66,25 @@ export default function HeroPage() {
             <span>Pick one</span>
           </div>
 
-          {tracks.map((track) => {
-            const stats = trackStats[track.id];
-            const current = hasProgress && continueTrack.id === track.id;
-
-            return (
-              <Link
-                className={`hero-index-row${current ? ' is-current' : ''}`}
-                to={trackPath(track.id)}
-                key={track.id}
-              >
-                <span className="hero-index-number">
-                  {pad(track.id, 2)}
-                </span>
-                <span className="hero-index-copy">
-                  <strong>{track.shortTitle}</strong>
-                  <small>{track.title}</small>
-                </span>
-                <span className="hero-index-meta">
-                  {stats.done > 0
-                    ? `${stats.done}/${stats.total}`
-                    : `${stats.total} topics`}
-                </span>
-                <ChevronRightIcon size={16} />
-              </Link>
-            );
-          })}
+          {tracks.map((track) => (
+            <Link
+              className="hero-index-row"
+              to={trackPath(track.id)}
+              key={track.id}
+            >
+              <span className="hero-index-number">
+                {pad(track.id, 2)}
+              </span>
+              <span className="hero-index-copy">
+                <strong>{track.shortTitle}</strong>
+                <small>{track.title}</small>
+              </span>
+              <span className="hero-index-meta">
+                {track.topics.length} topics
+              </span>
+              <ChevronRightIcon size={16} />
+            </Link>
+          ))}
 
           <div className="hero-index-foot">
             <span>New to inference?</span>

@@ -4,7 +4,6 @@ import {
   trackById,
   trackPath,
   trackTopicPath,
-  tracks,
 } from '../data/tracks.js';
 import { getVideoId } from '../data/videos.js';
 import {
@@ -13,11 +12,9 @@ import {
   hasNotes,
   loadNotes,
 } from '../lib/content.js';
-import { useProgress } from '../lib/progress.jsx';
 import useDocumentTitle from '../lib/useDocumentTitle.js';
 import { cx, pad } from '../lib/utils.js';
 import Breadcrumbs from '../components/Breadcrumbs.jsx';
-import CompleteButton from '../components/CompleteButton.jsx';
 import VideoEmbed from '../components/VideoEmbed.jsx';
 import {
   ArrowLeftIcon,
@@ -53,19 +50,10 @@ function TopicDetail({ track, topic }) {
   const nextTopic =
     index < track.topics.length - 1 ? track.topics[index + 1] : null;
 
-  const { trackStats, isComplete, setLastVisited } = useProgress();
-  const stats = trackStats[track.id];
-  const complete = isComplete(topic.number);
-  const otherTracks = tracks.filter((item) => item.id !== track.id);
-
   const notesAvailable = hasNotes(topic.number);
   const [markdown, setMarkdown] = useState(null);
   const [loading, setLoading] = useState(notesAvailable);
   const videoId = getVideoId(topic.number);
-
-  useEffect(() => {
-    setLastVisited(topic.number);
-  }, [setLastVisited, topic.number]);
 
   useEffect(() => {
     let active = true;
@@ -90,6 +78,7 @@ function TopicDetail({ track, topic }) {
 
   const headings = useMemo(() => extractHeadings(markdown), [markdown]);
   const readTime = useMemo(() => estimateReadTime(markdown), [markdown]);
+  const focused = headings.length === 0;
 
   const scrollToHeading = (id) => {
     document
@@ -98,7 +87,7 @@ function TopicDetail({ track, topic }) {
   };
 
   return (
-    <div className="page topic-page">
+    <div className={cx('page topic-page', focused && 'is-focused')}>
       <Breadcrumbs
         items={[
           { label: 'Tracks', to: '/tracks' },
@@ -131,12 +120,7 @@ function TopicDetail({ track, topic }) {
         <VideoEmbed topicNumber={topic.number} title={topic.title} />
       )}
 
-      <div
-        className={cx(
-          'topic-layout',
-          headings.length === 0 && 'is-single',
-        )}
-      >
+      <div className={cx('topic-layout', focused && 'is-single')}>
         <div className="topic-main">
           {loading && !markdown ? (
             <ArticleSkeleton />
@@ -151,45 +135,10 @@ function TopicDetail({ track, topic }) {
               </span>
               <h2>Notes for this topic are on the way.</h2>
               <p>
-                The written lesson and video walkthrough will appear here. For
-                now, use the topic list to keep moving, or mark this topic
-                complete after studying it your own way.
+                The written lesson and video walkthrough will appear here. Use
+                the track contents to keep moving, or jump to the next topic
+                below.
               </p>
-            </section>
-          )}
-
-          <section className="lesson-complete">
-            <div>
-              <h2>{complete ? 'Topic complete' : 'Finished this topic?'}</h2>
-              <p>
-                {complete
-                  ? 'Nice. Keep the momentum going with the next topic.'
-                  : 'Mark it complete to keep track of where you are in the track.'}
-              </p>
-            </div>
-            <CompleteButton number={topic.number} />
-          </section>
-
-          {!nextTopic && complete && (
-            <section className="track-complete-card">
-              <p className="eyebrow">Track complete</p>
-              <h2>You finished {track.shortTitle}.</h2>
-              <p>
-                All {stats.total} topics in this track are complete. Pick
-                another track to keep going.
-              </p>
-              <div className="track-complete-actions">
-                {otherTracks.map((item) => (
-                  <Link
-                    className="btn btn-secondary"
-                    to={trackPath(item.id)}
-                    key={item.id}
-                  >
-                    Track {pad(item.id, 2)} · {item.shortTitle}
-                    <ArrowRightIcon size={15} />
-                  </Link>
-                ))}
-              </div>
             </section>
           )}
 

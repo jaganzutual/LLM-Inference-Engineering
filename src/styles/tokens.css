@@ -41,13 +41,11 @@
   --radius-pill: 999px;
 
   --header-height: 64px;
-  --sidebar-width: 288px;
   --content-max: 1080px;
   --reading-max: 720px;
   --landing-max: 1180px;
 
   --z-header: 50;
-  --z-sidebar: 30;
   --z-scrim: 70;
   --z-drawer: 80;
   --z-dialog: 100;
@@ -85,7 +83,6 @@
   --action-hover: #ffffff;
   --action-contrast: #000000;
   --focus: #ffffff;
-  --progress: #ffffff;
 
   --danger: #ff8a7a;
   --code-bg: #0a0a0a;
@@ -127,7 +124,6 @@
   --action-hover: #000000;
   --action-contrast: #ffffff;
   --focus: #000000;
-  --progress: #0a0a0a;
 
   --danger: #b42318;
   --code-bg: #f6f6f6;

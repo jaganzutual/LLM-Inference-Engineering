@@ -49,7 +49,6 @@ src/
   data/curriculum.js     All 10 phases, topic grouping, legacy helpers
   data/videos.js         Optional YouTube IDs keyed by topic number
   lib/content.js         Markdown loading, read time, heading extraction
-  lib/progress.jsx       Completion state and per-track progress
   lib/github.jsx         Cached GitHub star count
   lib/theme.jsx          Light/dark theme provider
   components/            Hero/track shell, sidebar, search, cards, topic rows
@@ -73,7 +72,7 @@ const trackMeta = [
 ];
 ```
 
-Each id maps to a phase in `src/data/curriculum.js`. To publish another track, add its phase id and presentation copy to `trackMeta`. The top-bar switcher, sidebar, search, landing page, and progress will pick it up automatically. The remaining phases are 4–10.
+Each id maps to a phase in `src/data/curriculum.js`. To publish another track, add its phase id and presentation copy to `trackMeta`. The top-bar switcher, contents drawer, search, and landing page will pick it up automatically. The remaining phases are 4–10.
 
 ## Adding lesson content
 
@@ -85,7 +84,7 @@ src/content/049.md
 
 The topic page loads it automatically. Content is rendered with GitHub-flavored markdown, so tables, task lists, and fenced code blocks work. Start headings at `##`; the page renders the topic title as the `h1`. `##` and `###` headings become the "On this page" outline.
 
-Internal links use the track-scoped route, for example `/track/3/topic/50`. External links open in a new tab. There is no content file yet, so every topic shows the "notes in progress" state.
+Internal links use the track-scoped route, for example `/track/3/topic/50`. External links open in a new tab. There is no content file yet, so every topic shows the "notes coming soon" state.
 
 ## Adding a video walkthrough
 
@@ -99,11 +98,9 @@ const videos = {
 
 The topic page renders a responsive, privacy-enhanced YouTube player. Without an entry, the meta row shows "Video coming soon."
 
-## Progress
+## Progress tracking
 
-Completion is stored in `localStorage` under `inference:progress:v1`. There is no account or backend. Progress syncs between tabs in the same browser.
-
-The header, sidebar, track page, hero page, and track picker all read from the same state. Each track has its own completion count, and "Continue" resumes at the next unfinished topic after the one you last visited.
+Not implemented yet. The app currently has no completion state, progress bars, percentages, or “mark complete” controls. Those can be added later without changing the track or topic structure.
 
 ## GitHub stars
 
@@ -111,7 +108,7 @@ The header and footer show the repository's star count. It is fetched once from 
 
 ## Theme
 
-The app starts in a true-black theme with white text and a black-and-white light alternative. Lime is reserved for small signals only: the brand mark, active markers, completion checks, and the progress ring. The toggle in the header stores the user's choice under `inference:theme`.
+The app starts in a true-black theme with white text and a black-and-white light alternative. Lime is reserved for small signals only: the brand mark, the active tab underline, and the active topic marker. The toggle in the header stores the user's choice under `inference:theme`.
 
 ## Publish with GitHub Pages
 

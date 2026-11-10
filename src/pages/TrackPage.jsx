@@ -5,10 +5,8 @@ import {
   trackTopicPath,
   tracks,
 } from '../data/tracks.js';
-import { useProgress } from '../lib/progress.jsx';
 import useDocumentTitle from '../lib/useDocumentTitle.js';
 import Breadcrumbs from '../components/Breadcrumbs.jsx';
-import ProgressBar from '../components/ProgressBar.jsx';
 import TopicRow from '../components/TopicRow.jsx';
 import {
   ArrowRightIcon,
@@ -29,10 +27,7 @@ export default function TrackPage() {
 function TrackDetail({ track }) {
   useDocumentTitle(`${track.title} — Inference Engineering`);
 
-  const { trackStats, nextTopicInTrack } = useProgress();
-  const stats = trackStats[track.id];
-  const complete = stats.done === stats.total;
-  const nextTopic = nextTopicInTrack(track);
+  const firstTopic = track.topics[0];
   const otherTracks = tracks.filter((item) => item.id !== track.id);
 
   return (
@@ -62,39 +57,23 @@ function TrackDetail({ track }) {
           </div>
         </div>
 
-        <aside className="track-progress-card">
-          <div className="track-progress-head">
-            <span>Your progress</span>
-            <span>{stats.percent}%</span>
-          </div>
-          <div className="track-progress-value">
-            <strong>{stats.done}</strong>
-            <span>/ {stats.total} topics</span>
-          </div>
-          <ProgressBar
-            value={stats.done}
-            max={stats.total}
-            label={`${track.title} progress`}
-          />
-          <Link
-            className="btn btn-primary"
-            to={trackTopicPath(track.id, nextTopic.number)}
-          >
-            {complete
-              ? 'Review track'
-              : stats.done > 0
-                ? 'Continue track'
-                : 'Start track'}
-            <ArrowRightIcon size={16} />
-          </Link>
-          {complete ? (
-            <p className="track-progress-note">
-              You completed all {stats.total} topics in this track.
-            </p>
-          ) : (
-            <p className="track-progress-note">
-              Progress is saved automatically in this browser.
-            </p>
+        <aside className="track-start-card">
+          <span className="track-start-label">
+            Track {pad(track.id, 2)}
+          </span>
+          <strong>{track.topics.length} topics</strong>
+          <p>
+            Self-paced. Start with the first topic, or browse the full list
+            below.
+          </p>
+          {firstTopic && (
+            <Link
+              className="btn btn-primary"
+              to={trackTopicPath(track.id, firstTopic.number)}
+            >
+              Start track
+              <ArrowRightIcon size={16} />
+            </Link>
           )}
         </aside>
       </section>
@@ -104,9 +83,7 @@ function TrackDetail({ track }) {
           <div>
             <h2 id="track-topics-title">Track topics</h2>
           </div>
-          <p>
-            {stats.total} topics · {stats.done} complete
-          </p>
+          <p>{track.topics.length} topics</p>
         </div>
 
         <div className="topic-list-card">

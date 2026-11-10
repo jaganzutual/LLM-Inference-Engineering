@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { trackPath } from '../data/tracks.js';
-import { useProgress } from '../lib/progress.jsx';
 import Brand from './Brand.jsx';
 import GithubLink from './GithubLink.jsx';
-import ProgressRing from './ProgressRing.jsx';
 import ThemeToggle from './ThemeToggle.jsx';
 import TrackSwitcher from './TrackSwitcher.jsx';
 import {
-  MenuIcon,
+  ListIcon,
   SearchIcon,
 } from './Icons.jsx';
 
@@ -20,8 +16,6 @@ export default function SiteHeader({
   menuButtonRef,
   onNavigate,
 }) {
-  const { trackStats } = useProgress();
-  const stats = trackStats[track.id];
   const [shortcut, setShortcut] = useState('Ctrl K');
 
   useEffect(() => {
@@ -35,24 +29,23 @@ export default function SiteHeader({
         <button
           ref={menuButtonRef}
           type="button"
-          className="icon-button menu-button"
+          className="header-contents"
           onClick={onOpenNav}
           aria-label={
-            navOpen
-              ? 'Close curriculum navigation'
-              : 'Open curriculum navigation'
+            navOpen ? 'Close track contents' : 'Open track contents'
           }
           aria-controls="curriculum-nav"
           aria-expanded={navOpen}
         >
-          <MenuIcon size={19} />
+          <ListIcon size={16} />
+          <span>Contents</span>
         </button>
 
         <Brand onClick={onNavigate} />
 
-        <TrackSwitcher currentTrackId={track.id} />
-
         <div className="header-spacer" />
+
+        <TrackSwitcher currentTrackId={track.id} />
 
         <button
           type="button"
@@ -65,20 +58,6 @@ export default function SiteHeader({
         >
           <SearchIcon size={17} />
         </button>
-
-        <Link
-          className="header-progress"
-          to={trackPath(track.id)}
-          onClick={onNavigate}
-          aria-label={`${stats.percent}% of ${track.title} complete. Open the track overview.`}
-          title={`${stats.done} of ${stats.total} topics complete`}
-        >
-          <ProgressRing value={stats.percent} />
-          <span>
-            {stats.done}
-            <em>/{stats.total}</em>
-          </span>
-        </Link>
 
         <GithubLink className="site-github" />
 

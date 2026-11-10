@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import { trackPath } from '../data/tracks.js';
 import { pad } from '../lib/utils.js';
-import ProgressBar from './ProgressBar.jsx';
 import {
   ArrowUpRightIcon,
   CheckIcon,
 } from './Icons.jsx';
 
-export default function TrackCard({ track, stats }) {
+export default function TrackCard({ track }) {
   return (
     <Link
       className="track-card"
@@ -35,25 +34,11 @@ export default function TrackCard({ track, stats }) {
         <div className="track-card-meta">
           <span>{track.level}</span>
           <span>{track.topics.length} topics</span>
-          {stats.done > 0 && (
-            <span>
-              {stats.done}/{stats.total} done
-            </span>
-          )}
         </div>
         <span className="track-card-arrow" aria-hidden="true">
           <ArrowUpRightIcon size={15} />
         </span>
       </div>
-
-      {stats.done > 0 && (
-        <ProgressBar
-          value={stats.done}
-          max={stats.total}
-          size="xs"
-          label={`${track.title} progress`}
-        />
-      )}
     </Link>
   );
 }

@@ -2,22 +2,18 @@ import { Link } from 'react-router-dom';
 import { trackTopicPath } from '../data/tracks.js';
 import { getVideoId } from '../data/videos.js';
 import { hasNotes } from '../lib/content.js';
-import { useProgress } from '../lib/progress.jsx';
-import { cx, pad } from '../lib/utils.js';
-import CompleteButton from './CompleteButton.jsx';
+import { pad } from '../lib/utils.js';
 import {
   ChevronRightIcon,
   PlayIcon,
 } from './Icons.jsx';
 
 export default function TopicRow({ topic, trackId }) {
-  const { isComplete } = useProgress();
-  const completed = isComplete(topic.number);
   const notes = hasNotes(topic.number);
   const video = getVideoId(topic.number);
 
   return (
-    <div className={cx('topic-row', completed && 'is-complete')}>
+    <div className="topic-row">
       <Link
         className="topic-row-link"
         to={trackTopicPath(trackId, topic.number)}
@@ -39,7 +35,6 @@ export default function TopicRow({ topic, trackId }) {
         </span>
         <ChevronRightIcon size={16} className="topic-chevron" />
       </Link>
-      <CompleteButton number={topic.number} compact />
     </div>
   );
 }

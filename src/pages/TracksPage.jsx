@@ -1,16 +1,8 @@
 import { useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {
-  trackTopicPath,
-  tracks,
-  totalTrackTopics,
-} from '../data/tracks.js';
-import { useProgress } from '../lib/progress.jsx';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { tracks } from '../data/tracks.js';
 import useDocumentTitle from '../lib/useDocumentTitle.js';
 import TrackCard from '../components/TrackCard.jsx';
-import {
-  ArrowRightIcon,
-} from '../components/Icons.jsx';
 
 const steps = [
   {
@@ -25,8 +17,8 @@ const steps = [
   },
   {
     number: '03',
-    title: 'Track progress',
-    copy: 'Mark topics complete as you go. Progress stays in your browser.',
+    title: 'Go at your pace',
+    copy: 'Work through the topics in order, or jump straight to the one you need.',
   },
 ];
 
@@ -35,12 +27,6 @@ export default function TracksPage() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const {
-    completedCount,
-    trackStats,
-    continueTrack,
-    nextTrackTopic,
-  } = useProgress();
 
   useEffect(() => {
     const targetId = location.state?.scrollTo;
@@ -79,29 +65,11 @@ export default function TracksPage() {
           Three self-contained sequences across the inference stack. Pick the
           layer you need, or work through all three at your own pace.
         </p>
-
-        {completedCount > 0 && completedCount < totalTrackTopics && (
-          <Link
-            className="tracks-continue"
-            to={trackTopicPath(continueTrack.id, nextTrackTopic.number)}
-          >
-            <span className="tracks-continue-label">Continue</span>
-            <span className="tracks-continue-copy">
-              <strong>Track {continueTrack.id} · {continueTrack.shortTitle}</strong>
-              <small>{nextTrackTopic.title}</small>
-            </span>
-            <ArrowRightIcon size={16} />
-          </Link>
-        )}
       </section>
 
       <section className="tracks-grid" aria-label="Learning tracks">
         {tracks.map((track) => (
-          <TrackCard
-            key={track.id}
-            track={track}
-            stats={trackStats[track.id]}
-          />
+          <TrackCard key={track.id} track={track} />
         ))}
       </section>
 
@@ -118,7 +86,7 @@ export default function TracksPage() {
           </div>
           <p>
             Every track follows the same rhythm: pick it up, work through it,
-            and keep a record of what you have finished.
+            and move at your own pace.
           </p>
         </div>
 

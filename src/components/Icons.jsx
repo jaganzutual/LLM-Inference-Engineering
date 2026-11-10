@@ -28,14 +28,6 @@ export function SearchIcon(props) {
   );
 }
 
-export function MenuIcon(props) {
-  return (
-    <Icon {...props}>
-      <path d="M4 7h16M4 12h16M4 17h16" />
-    </Icon>
-  );
-}
-
 export function XIcon(props) {
   return (
     <Icon {...props}>

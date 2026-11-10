@@ -1,17 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import { trackPath } from '../data/tracks.js';
-import { useProgress } from '../lib/progress.jsx';
 import { cx, pad } from '../lib/utils.js';
 import {
-  CheckIcon,
   ListIcon,
   XIcon,
 } from './Icons.jsx';
 
 export default function Sidebar({ track, open, onClose, onNavigate }) {
   const topicMatch = useMatch('/track/:trackId/topic/:topicNumber');
-  const { isComplete } = useProgress();
   const activeTopicNumber = topicMatch
     ? Number(topicMatch.params.topicNumber)
     : null;
@@ -75,7 +72,6 @@ export default function Sidebar({ track, open, onClose, onNavigate }) {
         <ul className="sidebar-topics">
           {track.topics.map((topic) => {
             const active = activeTopicNumber === topic.number;
-            const done = isComplete(topic.number);
 
             return (
               <li key={topic.number}>
@@ -95,12 +91,6 @@ export default function Sidebar({ track, open, onClose, onNavigate }) {
                   <span className="sidebar-topic-title">
                     {topic.title}
                   </span>
-                  {done && (
-                    <CheckIcon
-                      size={12}
-                      className="sidebar-topic-check"
-                    />
-                  )}
                 </Link>
               </li>
             );

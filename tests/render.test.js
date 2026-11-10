@@ -76,8 +76,9 @@ test('the hero, tracks, and track workspace render', async () => {
     const topic = render('/track/3/topic/49');
     assert.match(topic, /CPU versus GPU architecture/);
     assert.match(topic, /Notes for this topic are on the way/);
-    assert.match(topic, /Mark complete/);
     assert.doesNotMatch(topic, /In this track/);
+    assert.doesNotMatch(topic, /Mark complete/);
+    assert.doesNotMatch(topic, /Your progress/);
 
     const wrongTopic = render('/track/3/topic/1');
     assert.match(wrongTopic, /part of the path/);

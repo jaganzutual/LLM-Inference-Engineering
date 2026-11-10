@@ -68,14 +68,6 @@ function TrackWorkspace({ track }) {
   }, [navOpen]);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) setNavOpen(false);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
     const handleShortcut = (event) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
