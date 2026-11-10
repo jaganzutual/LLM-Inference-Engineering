@@ -73,7 +73,7 @@ const trackMeta = [
 ];
 ```
 
-Each id maps to a phase in `src/data/curriculum.js`. To publish another track, add its phase id and presentation copy to `trackMeta`. The sidebar, search, landing page, and progress will pick it up automatically. The remaining phases are 4–10.
+Each id maps to a phase in `src/data/curriculum.js`. To publish another track, add its phase id and presentation copy to `trackMeta`. The top-bar switcher, sidebar, search, landing page, and progress will pick it up automatically. The remaining phases are 4–10.
 
 ## Adding lesson content
 
@@ -111,9 +111,7 @@ The header and footer show the repository's star count. It is fetched once from 
 
 ## Theme
 
-The app ships with dark and light themes. The initial theme follows the operating system, and the toggle in the header stores the user's choice under `inference:theme`.
-
-The lime accent is intentionally reserved for small signals: the brand mark, the active-topic marker, completion checks, and the progress ring. Primary actions and progress bars use neutral ink.
+The app starts in a true-black theme with white text and a black-and-white light alternative. Lime is reserved for small signals only: the brand mark, active markers, completion checks, and the progress ring. The toggle in the header stores the user's choice under `inference:theme`.
 
 ## Publish with GitHub Pages
 

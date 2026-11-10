@@ -18,13 +18,11 @@ import useDocumentTitle from '../lib/useDocumentTitle.js';
 import { cx, pad } from '../lib/utils.js';
 import Breadcrumbs from '../components/Breadcrumbs.jsx';
 import CompleteButton from '../components/CompleteButton.jsx';
-import ProgressBar from '../components/ProgressBar.jsx';
 import VideoEmbed from '../components/VideoEmbed.jsx';
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
   BookOpenIcon,
-  CheckIcon,
   ClockIcon,
   PlayIcon,
 } from '../components/Icons.jsx';
@@ -44,7 +42,9 @@ export default function TopicPage() {
 }
 
 function TopicDetail({ track, topic }) {
-  useDocumentTitle(`${topic.title} — ${track.shortTitle} — Inference Engineering`);
+  useDocumentTitle(
+    `${topic.title} — ${track.shortTitle} — Inference Engineering`,
+  );
 
   const index = track.topics.findIndex(
     (item) => item.number === topic.number,
@@ -108,33 +108,22 @@ function TopicDetail({ track, topic }) {
       />
 
       <header className="topic-head">
-        <p className="eyebrow">
-          Track {pad(track.id, 2)} · {track.tag} · Topic{' '}
-          {pad(topic.number)}
-        </p>
         <h1>{topic.title}</h1>
         <div className="topic-meta">
-          <span className="meta-item">
-            {notesAvailable ? (
-              <>
-                <ClockIcon size={14} />{' '}
-                {readTime
-                  ? `${readTime} min read`
-                  : loading
-                    ? 'Loading notes…'
-                    : 'Notes'}
-              </>
-            ) : (
-              <>
-                <BookOpenIcon size={14} /> Notes in progress
-              </>
-            )}
-          </span>
+          {notesAvailable && (
+            <span className="meta-item">
+              <ClockIcon size={14} />{' '}
+              {readTime
+                ? `${readTime} min read`
+                : loading
+                  ? 'Loading notes…'
+                  : 'Notes'}
+            </span>
+          )}
           <span className="meta-item">
             <PlayIcon size={14} />{' '}
             {videoId ? 'Video walkthrough' : 'Video coming soon'}
           </span>
-          <CompleteButton number={topic.number} />
         </div>
       </header>
 
@@ -142,7 +131,12 @@ function TopicDetail({ track, topic }) {
         <VideoEmbed topicNumber={topic.number} title={topic.title} />
       )}
 
-      <div className="topic-layout">
+      <div
+        className={cx(
+          'topic-layout',
+          headings.length === 0 && 'is-single',
+        )}
+      >
         <div className="topic-main">
           {loading && !markdown ? (
             <ArticleSkeleton />
@@ -155,31 +149,11 @@ function TopicDetail({ track, topic }) {
               <span className="empty-icon">
                 <BookOpenIcon size={22} />
               </span>
-              <p className="eyebrow">Lesson in progress</p>
               <h2>Notes for this topic are on the way.</h2>
               <p>
                 The written lesson and video walkthrough will appear here. For
-                now, use the track outline to keep moving, or mark this topic
+                now, use the topic list to keep moving, or mark this topic
                 complete after studying it your own way.
-              </p>
-              <div className="empty-actions">
-                <Link
-                  className="btn btn-secondary"
-                  to={trackPath(track.id)}
-                >
-                  <ArrowLeftIcon size={15} /> Back to track
-                </Link>
-                {nextTopic && (
-                  <Link
-                    className="btn btn-primary"
-                    to={trackTopicPath(track.id, nextTopic.number)}
-                  >
-                    Next topic <ArrowRightIcon size={15} />
-                  </Link>
-                )}
-              </div>
-              <p className="empty-note">
-                Lessons are added as the track is written.
               </p>
             </section>
           )}
@@ -231,10 +205,7 @@ function TopicDetail({ track, topic }) {
                 <strong>{previousTopic.title}</strong>
               </Link>
             ) : (
-              <Link
-                className="pager-card prev"
-                to={trackPath(track.id)}
-              >
+              <Link className="pager-card prev" to={trackPath(track.id)}>
                 <span>
                   <ArrowLeftIcon size={14} /> Track overview
                 </span>
@@ -253,10 +224,7 @@ function TopicDetail({ track, topic }) {
                 <strong>{nextTopic.title}</strong>
               </Link>
             ) : (
-              <Link
-                className="pager-card next"
-                to={trackPath(track.id)}
-              >
+              <Link className="pager-card next" to={trackPath(track.id)}>
                 <span>
                   Track overview <ArrowRightIcon size={14} />
                 </span>
@@ -266,8 +234,8 @@ function TopicDetail({ track, topic }) {
           </nav>
         </div>
 
-        <aside className="topic-rail">
-          {headings.length > 0 && (
+        {headings.length > 0 && (
+          <aside className="topic-rail">
             <section className="rail-card">
               <h2>On this page</h2>
               <nav className="rail-toc" aria-label="On this page">
@@ -286,56 +254,8 @@ function TopicDetail({ track, topic }) {
                 ))}
               </nav>
             </section>
-          )}
-
-          <section className="rail-card">
-            <h2>Track {pad(track.id, 2)} progress</h2>
-            <div className="rail-progress">
-              <strong>{stats.done}</strong>
-              <span>/ {stats.total} complete</span>
-            </div>
-            <ProgressBar
-              value={stats.done}
-              max={stats.total}
-              size="sm"
-              label={`${track.title} progress`}
-            />
-            <Link className="rail-link" to={trackPath(track.id)}>
-              View track <ArrowRightIcon size={14} />
-            </Link>
-          </section>
-
-          <section className="rail-card rail-track-card">
-            <h2>In this track</h2>
-            <ol className="rail-track-list">
-              {track.topics.map((item) => {
-                const current = item.number === topic.number;
-                const done = isComplete(item.number);
-
-                return (
-                  <li key={item.number}>
-                    <Link
-                      to={trackTopicPath(track.id, item.number)}
-                      className={cx(
-                        'rail-topic',
-                        current && 'is-active',
-                      )}
-                      aria-current={current ? 'page' : undefined}
-                    >
-                      <span className="rail-topic-number">
-                        {pad(item.number)}
-                      </span>
-                      <span className="rail-topic-title">{item.title}</span>
-                      {done && (
-                        <CheckIcon size={12} className="rail-topic-check" />
-                      )}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
-          </section>
-        </aside>
+          </aside>
+        )}
       </div>
     </div>
   );

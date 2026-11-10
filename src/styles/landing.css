@@ -19,38 +19,6 @@
   overflow: hidden;
 }
 
-.hero-page::before {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 50% at 72% 38%,
-    var(--surface-2),
-    transparent 70%
-  );
-  content: '';
-  pointer-events: none;
-}
-
-.hero-page::after {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-      to right,
-      var(--border) 1px,
-      transparent 1px
-    ),
-    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-  background-size: 72px 72px;
-  content: '';
-  opacity: 0.26;
-  pointer-events: none;
-  mask-image: radial-gradient(
-    ellipse 65% 65% at 50% 40%,
-    black,
-    transparent 78%
-  );
-}
-
 .hero-page-inner {
   position: relative;
   z-index: 1;

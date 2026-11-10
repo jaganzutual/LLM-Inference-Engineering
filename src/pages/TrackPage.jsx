@@ -46,10 +46,6 @@ function TrackDetail({ track }) {
 
       <section className="track-hero">
         <div className="track-hero-copy">
-          <p className="eyebrow">
-            Track {pad(track.id, 2)}
-            <span className="tag">{track.tag}</span>
-          </p>
           <h1>{track.title}</h1>
           <p className="lead">{track.summary}</p>
 

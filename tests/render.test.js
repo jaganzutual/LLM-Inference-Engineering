@@ -70,13 +70,14 @@ test('the hero, tracks, and track workspace render', async () => {
     assert.match(track, /Deep Learning &amp; LLM Foundations/);
     assert.match(track, /Tensors, shapes, strides, broadcasting/);
     assert.match(track, /25 topics/);
+    assert.match(track, /GPU Performance/);
     assert.doesNotMatch(track, /Streaming multiprocessors/);
 
     const topic = render('/track/3/topic/49');
     assert.match(topic, /CPU versus GPU architecture/);
     assert.match(topic, /Notes for this topic are on the way/);
     assert.match(topic, /Mark complete/);
-    assert.match(topic, /In this track/);
+    assert.doesNotMatch(topic, /In this track/);
 
     const wrongTopic = render('/track/3/topic/1');
     assert.match(wrongTopic, /part of the path/);

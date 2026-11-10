@@ -17,12 +17,10 @@ function getInitialTheme() {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === 'light' || stored === 'dark') return stored;
   } catch {
-    // Fall through to the system preference.
+    // Fall through to the default theme.
   }
 
-  return window.matchMedia?.('(prefers-color-scheme: light)').matches
-    ? 'light'
-    : 'dark';
+  return 'dark';
 }
 
 export function ThemeProvider({ children }) {
@@ -38,7 +36,7 @@ export function ThemeProvider({ children }) {
 
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
-      meta.setAttribute('content', theme === 'dark' ? '#101418' : '#f4f6f7');
+      meta.setAttribute('content', theme === 'dark' ? '#000000' : '#ffffff');
     }
   }, [theme]);
 

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { trackPath } from '../data/tracks.js';
 import { useProgress } from '../lib/progress.jsx';
-import { pad } from '../lib/utils.js';
 import Brand from './Brand.jsx';
 import GithubLink from './GithubLink.jsx';
 import ProgressRing from './ProgressRing.jsx';
 import ThemeToggle from './ThemeToggle.jsx';
+import TrackSwitcher from './TrackSwitcher.jsx';
 import {
   MenuIcon,
   SearchIcon,
@@ -30,7 +30,7 @@ export default function SiteHeader({
   }, []);
 
   return (
-    <header className="site-header">
+    <header className="site-header app-header">
       <div className="site-header-inner">
         <button
           ref={menuButtonRef}
@@ -50,14 +50,7 @@ export default function SiteHeader({
 
         <Brand onClick={onNavigate} />
 
-        <Link
-          className="header-track-label"
-          to={trackPath(track.id)}
-          onClick={onNavigate}
-        >
-          Track {pad(track.id, 2)}
-          <span>{track.shortTitle}</span>
-        </Link>
+        <TrackSwitcher currentTrackId={track.id} />
 
         <div className="header-spacer" />
 

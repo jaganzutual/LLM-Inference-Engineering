@@ -1,12 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Link, useMatch } from 'react-router-dom';
-import {
-  trackPath,
-  tracks,
-} from '../data/tracks.js';
+import { trackPath } from '../data/tracks.js';
 import { useProgress } from '../lib/progress.jsx';
 import { cx, pad } from '../lib/utils.js';
-import ProgressBar from './ProgressBar.jsx';
 import {
   CheckIcon,
   ListIcon,
@@ -15,8 +11,7 @@ import {
 
 export default function Sidebar({ track, open, onClose, onNavigate }) {
   const topicMatch = useMatch('/track/:trackId/topic/:topicNumber');
-  const { trackStats, isComplete } = useProgress();
-  const stats = trackStats[track.id];
+  const { isComplete } = useProgress();
   const activeTopicNumber = topicMatch
     ? Number(topicMatch.params.topicNumber)
     : null;
@@ -64,20 +59,6 @@ export default function Sidebar({ track, open, onClose, onNavigate }) {
         >
           {track.title}
         </Link>
-
-        <div className="sidebar-progress">
-          <div>
-            <strong>{stats.done}</strong>
-            <span> / {stats.total} complete</span>
-          </div>
-          <span>{stats.percent}%</span>
-        </div>
-        <ProgressBar
-          value={stats.done}
-          max={stats.total}
-          size="sm"
-          label={`${track.title} progress`}
-        />
       </div>
 
       <nav className="sidebar-nav" aria-label="Track contents">
@@ -86,37 +67,9 @@ export default function Sidebar({ track, open, onClose, onNavigate }) {
           All tracks
         </Link>
 
-        <div className="sidebar-switcher">
-          <div className="sidebar-section-label">Switch track</div>
-          {tracks.map((item) => {
-            const itemStats = trackStats[item.id];
-            return (
-              <Link
-                key={item.id}
-                to={trackPath(item.id)}
-                className={cx(
-                  'sidebar-switch',
-                  item.id === track.id && 'is-active',
-                )}
-                onClick={onNavigate}
-              >
-                <span className="sidebar-switch-number">
-                  {pad(item.id, 2)}
-                </span>
-                <span className="sidebar-switch-title">
-                  {item.shortTitle}
-                </span>
-                <span className="sidebar-switch-count">
-                  {itemStats.done}/{itemStats.total}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-
         <div className="sidebar-section-head">
           <span>Topics</span>
-          <span>{stats.total}</span>
+          <span>{track.topics.length}</span>
         </div>
 
         <ul className="sidebar-topics">
@@ -154,11 +107,6 @@ export default function Sidebar({ track, open, onClose, onNavigate }) {
           })}
         </ul>
       </nav>
-
-      <div className="sidebar-foot">
-        <span>{tracks.length} tracks</span>
-        <span>{stats.done}/{stats.total} done</span>
-      </div>
     </aside>
   );
 }
