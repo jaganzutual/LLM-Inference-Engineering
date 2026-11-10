@@ -17,9 +17,9 @@
 .brand-icon i { background: #d5f75a; }
 .nav nav { color: #c6c7c2; }
 .github { border-color: #454743; }
-.pill { background: #202419; border-color: #424a2a; color: #d9ed9b; }
+.pill { background: #20211f; border-color: #42433e; color: #d1d2ca; }
 .pulse, .green-dot, .eyebrow span { background: #d5f75a; }
-.hero h1 span { color: #d5f75a; }
+.hero h1 span { color: #f4f4f1; }
 .hero-copy > p, .section-head > p { color: #bcbdb8; }
 .hero-stats span, .roadmap-toolbar div > span { color: #b0b1ab; }
 .primary { background: #d5f75a; color: #111507; }
@@ -28,14 +28,14 @@
 .hero-art { background: #151615; border-color: #383a35; box-shadow: 0 25px 70px #0008; }
 .art-top, .art-bottom, .flow-label { color: #babcb2; }
 .tiny-dot { background: #d5f75a; }
-.model-box { background: #22241d; border-color: #404634; }
+.model-box { background: #222321; border-color: #41423e; }
 .model-box small { color: #bfc2b3; }
-.model-icon { background: #d5f75a; color: #151809; }
-.flow-line { border-color: #787e66; }
+.model-icon { background: #363834; color: #e8e9e2; }
+.flow-line { border-color: #70716a; }
 .art-bottom { border-color: #383a35; }
 .ticker { background: #161715; border-color: #30312d; }
 .ticker span, .ticker b { color: #b8bab2; }
-.ticker i { color: #c8e664; }
+.ticker i { color: #95988e; }
 .eyebrow { color: #d5f75a; }
 .roadmap-section { background: #111211; }
 .search, .phases { background: #1c1d1b; border-color: #3c3e38; }
@@ -44,11 +44,28 @@
 .search input::placeholder { color: #b5b8ad; opacity: 1; }
 .phase + .phase, .topic-list li { border-color: #353731; }
 .phase summary:hover { background: #282a24; }
-.phase-number, .expand { color: #d5f75a; }
-.phase-tag { background: #303523; color: #e0efad; }
+.phase-number, .expand { color: #c3c5bb; }
+.phase-tag { background: #323330; color: #d5d6cf; }
 .phase-count, .topic-list li span:first-child, .empty { color: #bcbfb1; }
 footer { border-color: #30312d; }
 .footer-inner p, .footer-inner > a:last-child { color: #bdbfb6; }
 .github-stars { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; padding-left: 9px; border-left: 1px solid #454743; color: #e6e8dd; white-space: nowrap; }
 .github-stars span { margin-left: 0; color: #d5f75a; }
 @media (max-width: 520px) { .github { padding: 9px; } .github-stars { margin-left: 4px; padding-left: 6px; } }
+/* Direct starting points remain available on all screen sizes. */
+.nav { gap: 24px; }
+.nav .phase-nav { display: flex; gap: 10px; margin-left: auto; align-items: stretch; }
+.phase-nav a { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 6px; color: #e4e5dc; }
+.phase-nav a:hover { background: #22251b; color: #d5f75a; }
+.nav-phase-number { color: #b5b7ad; font-family: 'Space Grotesk', sans-serif; font-size: 11px; }
+.nav-phase-title { max-width: 145px; font-size: 11px; line-height: 1.2; }
+.nav-phase-title small { display: block; margin-top: 3px; color: #b5b8ad; font-size: 10px; font-weight: 400; }
+.phase { scroll-margin-top: 20px; }
+@media (max-width: 1050px) {
+  .nav { height: auto; min-height: 76px; flex-wrap: wrap; padding-top: 16px; padding-bottom: 12px; }
+  .nav .phase-nav { order: 3; flex: 0 0 100%; margin: 0; overflow-x: auto; }
+  .phase-nav a { flex: 1 0 190px; }
+  .nav .github { margin-left: auto; }
+}
+.phase-nav a[aria-current='page'] { background: #292b27; color: #f4f4f1; box-shadow: inset 0 -2px #d5f75a; }
+.back-link { display: inline-block; margin-bottom: 14px; color: #d4d6cc; font-size: 12px; font-weight: 700; }
