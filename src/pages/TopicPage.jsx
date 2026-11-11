@@ -15,6 +15,7 @@ import {
 import useDocumentTitle from '../lib/useDocumentTitle.js';
 import { cx, pad } from '../lib/utils.js';
 import Breadcrumbs from '../components/Breadcrumbs.jsx';
+import TopicSidebar from '../components/TopicSidebar.jsx';
 import VideoEmbed from '../components/VideoEmbed.jsx';
 import {
   ArrowLeftIcon,
@@ -87,8 +88,14 @@ function TopicDetail({ track, topic }) {
   };
 
   return (
-    <div className={cx('page topic-page', focused && 'is-focused')}>
-      <Breadcrumbs
+    <div className="topic-workspace">
+      <TopicSidebar
+        track={track}
+        activeTopicNumber={topic.number}
+      />
+
+      <div className={cx('page topic-page', focused && 'is-focused')}>
+        <Breadcrumbs
         items={[
           { label: 'Tracks', to: '/tracks' },
           { label: `Track ${pad(track.id, 2)}`, to: trackPath(track.id) },
@@ -205,6 +212,7 @@ function TopicDetail({ track, topic }) {
             </section>
           </aside>
         )}
+        </div>
       </div>
     </div>
   );

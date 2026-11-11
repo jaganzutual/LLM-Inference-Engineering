@@ -71,14 +71,17 @@ test('the hero, tracks, and track workspace render', async () => {
     assert.match(track, /Tensors, shapes, strides, broadcasting/);
     assert.match(track, /25 topics/);
     assert.match(track, /GPU Performance/);
+    assert.match(track, /Built in public/);
     assert.doesNotMatch(track, /Streaming multiprocessors/);
 
     const topic = render('/track/3/topic/49');
     assert.match(topic, /CPU versus GPU architecture/);
     assert.match(topic, /Notes for this topic are on the way/);
+    assert.match(topic, /All tracks/);
     assert.doesNotMatch(topic, /In this track/);
     assert.doesNotMatch(topic, /Mark complete/);
     assert.doesNotMatch(topic, /Your progress/);
+    assert.doesNotMatch(topic, /Built in public/);
 
     const wrongTopic = render('/track/3/topic/1');
     assert.match(wrongTopic, /part of the path/);

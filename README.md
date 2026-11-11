@@ -41,6 +41,8 @@ Hash routing is used so the static build works under the GitHub Pages repository
 | `/#/phase/3` | Redirects to `/#/track/3` |
 | `/#/topic/49` | Redirects to `/#/track/3/topic/49` |
 
+Topic pages use a persistent track sidebar on desktop, the Contents drawer on mobile, and omit the site footer.
+
 ## Project structure
 
 ```text

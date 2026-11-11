@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Outlet, useLocation, useParams } from 'react-router-dom';
+import {
+  Outlet,
+  useLocation,
+  useMatch,
+  useParams,
+} from 'react-router-dom';
 import { trackById } from '../data/tracks.js';
+import { cx } from '../lib/utils.js';
 import NotFoundPage from '../pages/NotFoundPage.jsx';
 import PublicLayout from './PublicLayout.jsx';
 import SearchDialog from './SearchDialog.jsx';
@@ -28,6 +34,8 @@ function TrackWorkspace({ track }) {
   const [navOpen, setNavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
+  const topicMatch = useMatch('/track/:trackId/topic/:topicNumber');
+  const isTopicPage = Boolean(topicMatch);
   const menuButtonRef = useRef(null);
 
   useEffect(() => {
@@ -93,7 +101,7 @@ function TrackWorkspace({ track }) {
   }, []);
 
   return (
-    <div className="app">
+    <div className={cx('app', isTopicPage && 'is-topic-page')}>
       <SkipLink />
 
       <SiteHeader
@@ -123,7 +131,7 @@ function TrackWorkspace({ track }) {
         </main>
       </div>
 
-      <SiteFooter />
+      {!isTopicPage && <SiteFooter />}
 
       <SearchDialog open={searchOpen} onClose={closeSearch} />
     </div>
